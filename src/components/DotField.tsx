@@ -37,6 +37,7 @@ export default function DotField() {
       density: number;
       size: number;
       opacity: number;
+      color: string;
 
       constructor(x: number, y: number) {
         this.x = x;
@@ -49,11 +50,16 @@ export default function DotField() {
         // Add random variations to each dot for organic movement
         this.density = Math.random() * 20 + 8; 
         this.size = Math.random() * 1.2 + 0.8; // dots are between 0.8px and 2.0px
-        this.opacity = Math.random() * 0.16 + 0.08; // subtle transparent whites
+        this.opacity = Math.random() * 0.18 + 0.06; // subtle transparent values
+        
+        const isGold = Math.random() > 0.85;
+        this.color = isGold 
+          ? `rgba(201, 168, 76, ${this.opacity * 1.2})` 
+          : `rgba(11, 31, 58, ${this.opacity * 0.75})`;
       }
 
       draw(context: CanvasRenderingContext2D) {
-        context.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        context.fillStyle = this.color;
         context.beginPath();
         context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         context.fill();

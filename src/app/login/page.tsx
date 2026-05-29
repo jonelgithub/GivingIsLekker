@@ -92,18 +92,9 @@ export default function LoginPage() {
 
       {/* Main Authentication Block */}
       <div className="auth-card">
-        {/* South African Flag Color Stripe */}
-        <div className="flag-stripe">
-          <div className="color-segment black" />
-          <div className="color-segment yellow" />
-          <div className="color-segment green" />
-          <div className="color-segment white" />
-          <div className="color-segment red" />
-          <div className="color-segment blue" />
-        </div>
-
         {/* Brand/Logo: Giving is lekker */}
         <div className="brand-container">
+          <span className="overline">Investec Programmable Banking</span>
           <h1 className="logo-text">
             <span className="part-giving">Giving</span>
             <span className="part-is">is</span>
@@ -113,7 +104,7 @@ export default function LoginPage() {
 
         {/* Community Quote */}
         <p className="community-quote">
-          &ldquo;“The greatness of a community is most accurately measured by the compassionate actions of its members.” — Coretta Scott King&rdquo;
+          &ldquo;The greatness of a community is most accurately measured by the compassionate actions of its members.&rdquo; — Coretta Scott King
         </p>
 
         {/* Authentication Mode Switcher */}

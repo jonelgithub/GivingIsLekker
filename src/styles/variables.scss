@@ -1,34 +1,40 @@
-// South African Flag Colors
+// Investec Color Palette
+$color-primary: #0B1F3A;
+$color-primary-light: #1A2E4A;
+$color-accent-gold: #C9A84C;
+$color-accent-gold-light: #E8D5A3;
+$color-background: #FFFFFF;
+$color-background-off: #F5F4F0;
+$color-text-primary: #0B1F3A;
+$color-text-secondary: #6B7B8D;
+$color-text-muted: #9AABB8;
+$color-border: #E0DDD6;
+$color-border-strong: #C9A84C;
+
+// South African Flag Accent Colors (used purely for charity tags in the registry)
 $sa-red: #E51D28;
 $sa-green: #007A4A;
 $sa-blue: #002395;
 $sa-yellow: #F4B41A;
-$sa-black: #000000;
-$sa-white: #FFFFFF;
 
-// Theme Colors (Dark Theme & Premium Aesthetic)
-$bg-dark: #0a0a0c;
-$bg-dark-gradient: radial-gradient(circle at 50% 50%, #16161c 0%, #070709 100%);
-$card-bg: rgba(18, 18, 24, 0.75);
-$card-border: rgba(255, 255, 255, 0.06);
-$card-glow: rgba(0, 122, 74, 0.15); // subtle South African green glow
-
-// Text colors
-$text-primary: #FFFFFF;
-$text-secondary: #a0a5b0;
-$text-muted: #646873;
-$text-accent: #3b82f6;
-
-// Fonts
-$font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+// Font Stacks
+$font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+$font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
 // Transitions & Interactions
 $transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 $transition-fast: all 0.15s ease-in-out;
 
-// Box Shadow
-$shadow-premium: 0 12px 40px rgba(0, 0, 0, 0.5);
-$shadow-glow: 0 0 30px rgba(0, 122, 74, 0.1);
+// Shadows (extremely soft and premium)
+$shadow-subtle: 0 8px 32px rgba(11, 31, 58, 0.05);
+$shadow-premium: 0 12px 40px rgba(11, 31, 58, 0.08);
+
+// Spacing (from design system)
+$space-xs: 0.5rem;
+$space-sm: 1rem;
+$space-md: 2rem;
+$space-lg: 4rem;
+$space-xl: 8rem;
 
 // Breakpoints
 $mobile: 480px;

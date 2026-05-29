@@ -34,6 +34,14 @@ const charities: Charity[] = [
     description: "Empowering urban micro-farmers, community organic vegetable gardens, and food security in Cape Town townships.",
     accountNumber: "98765432103",
   },
+  {
+    id: "tears-rescue",
+    name: "TEARS Animal Rescue",
+    image: "/images/charity_animal.png",
+    tags: ["animals", "medical", "rescue"],
+    description: "Providing rescue, rehabilitation, and veterinary support to distressed companion animals in Cape Town.",
+    accountNumber: "98765432104",
+  },
 ];
 
 export async function GET() {

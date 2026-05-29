@@ -1,0 +1,24 @@
+# Investec Programmable Banking Integration: Learnings & Gotchas
+
+This knowledge base details key learnings and gotchas discovered during the design and development of the **GivingIsLekker** micro-donations engine on the Investec OpenAPI.
+
+---
+
+## 1. Authentication & Token Management
+* **OAuth2 Token Overhead**: The OAuth token endpoint (`/identity/v2/oauth2/token`) is rate-limited. Performing a token call for every webhook swipe is a anti-pattern.
+* **Solution**: Implement a server-side in-memory cache for the token. Subtract a buffer of 60 seconds from the `expires_in` (typically 3600 seconds) to ensure that the token doesn't expire mid-request.
+
+## 2. API Restrictions & Limits
+* **Reference Character Cap**: Both `myReference` and `theirReference` fields in the Transfer API are strictly validated and have a maximum limit of **30 characters**. Exceeding this causes the API to return a `400 Bad Request`.
+  * *Fix*: Always truncate string inputs using `.substring(0, 30)` before attaching them to the transfer list.
+* **ZAR String Conversion**: The Investec API expects the `amount` field in the transfer list payload to be a string representing the decimal value (e.g. `"2.50"` instead of `2.5`).
+  * *Fix*: Format numbers using `amount.toFixed(2)` before mapping them to the request JSON.
+
+## 3. Webhook Handling & Cards
+* **Asynchronous Webhook Execution**: Webhook payloads are received as standard JSON HTTP POST requests when card swipes occur on linked accounts. Because the webhook receiver blocks card transaction validation processing if it responds too slowly, the receiver logic must be fast (ideally completing database entries and API handshakes in under 3 seconds).
+* **Idempotency**: In rare network retry scenarios, webhooks may fire multiple times for the same transaction. Keep a transaction log database (`db.json`) and check for unique transaction IDs before executing transfers to prevent duplicate donation round-ups.
+* **Sandbox Mode Switcher**: Because live transfers immediately move real ZAR between private customer accounts and charities, ensure the backend dynamically skips transfer execution when `INVESTEC_CLIENT_ID` or `INVESTEC_CLIENT_SECRET` are not loaded. The app should gracefully fallback to standard stdout console simulations and sandbox success responses.
+
+## 4. Frontend Encryption (RSA-OAEP)
+* **High-Wealth Client Privacy**: High-net-worth clients value absolute privacy, especially for identifiers like phone numbers.
+* **Security Flow**: The frontend generates an ephemeral RSA-OAEP 2048-bit key pair on initialization. For phone logins, the client encrypts the phone string at the browser boundary *before* transmitting it, ensuring that raw contact details never travel across public routes unencrypted.

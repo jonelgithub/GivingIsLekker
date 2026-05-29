@@ -9,7 +9,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { activeCharityId, roundUpIncrement } = body;
+    const { activeCharityId, roundUpIncrement, isPremiumDonor } = body;
 
     const db = getDb();
 
@@ -28,6 +28,11 @@ export async function POST(request: Request) {
     // 2. Update Active Charity
     if (activeCharityId !== undefined) {
       db.activeCharityId = activeCharityId;
+    }
+
+    // 3. Update Premium Donor tier
+    if (isPremiumDonor !== undefined) {
+      db.isPremiumDonor = Boolean(isPremiumDonor);
     }
 
     saveDb(db);

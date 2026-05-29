@@ -7,6 +7,7 @@ const charities = [
   { id: "imbumba-girls", name: "Imbumba Foundation (Caring4Girls)", accountNumber: "98765432101" },
   { id: "shonaquip-mobility", name: "Shonaquip Social Enterprise", accountNumber: "98765432102" },
   { id: "abalimi-farming", name: "Abalimi Bezekhaya (Township Farmers)", accountNumber: "98765432103" },
+  { id: "tears-rescue", name: "TEARS Animal Rescue", accountNumber: "98765432104" },
 ];
 
 export async function POST(request: Request) {
@@ -55,8 +56,11 @@ export async function POST(request: Request) {
     const increment = db.roundUpIncrement;
     const remainder = transactionAmount % increment;
     const donation = remainder === 0 ? increment : Number((increment - remainder).toFixed(2));
+    
+    // Calculate 1.5% side-hustle platform convenience fee (min R0.01)
+    const platformFee = Math.max(0.01, Number((donation * 0.015).toFixed(2)));
 
-    console.log(`[Card Swipe Webhook] Calculated R${donation.toFixed(2)} round-up on R${transactionAmount.toFixed(2)} purchase at ${merchant}.`);
+    console.log(`[Card Swipe Webhook] Calculated R${donation.toFixed(2)} round-up on R${transactionAmount.toFixed(2)} purchase at ${merchant}. Platform Fee: R${platformFee.toFixed(2)}.`);
 
     // EXECUTE LIVE/SIMULATED TRANSFER VIA INVESTEC PB API
     let transferResult;
@@ -81,12 +85,14 @@ export async function POST(request: Request) {
       description: merchant,
       amount: transactionAmount,
       donation: donation,
+      platformFee: platformFee,
       charityName: activeCharity.name,
       timestamp: new Date().toISOString(),
     };
 
     db.transactions.unshift(newTx);
     db.totalDonated = Number((db.totalDonated + donation).toFixed(2));
+    db.platformFeesEarned = Number((db.platformFeesEarned + platformFee).toFixed(2));
     saveDb(db);
 
     return NextResponse.json({

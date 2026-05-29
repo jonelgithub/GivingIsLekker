@@ -1,15 +1,171 @@
 {
   "activeCharityId": "imbumba-girls",
-  "roundUpIncrement": 5,
-  "totalDonated": 0.86,
+  "roundUpIncrement": 20,
+  "totalDonated": 151.94,
+  "platformFeesEarned": 2.3,
+  "isPremiumDonor": false,
   "transactions": [
     {
-      "id": "tx_5s65kw43",
-      "description": "Vida e Caffe",
-      "amount": 59.14,
-      "donation": 0.86,
+      "id": "tx_5i1iqt7x",
+      "description": "Uber SA",
+      "amount": 77.89,
+      "donation": 2.11,
+      "platformFee": 0.03,
       "charityName": "Imbumba Foundation (Caring4Girls)",
-      "timestamp": "2026-05-29T15:44:34.145Z"
+      "timestamp": "2026-05-29T16:02:18.157Z"
+    },
+    {
+      "id": "tx_ryh4ywzm",
+      "description": "Shell Select",
+      "amount": 87.21,
+      "donation": 12.79,
+      "platformFee": 0.19,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:17.977Z"
+    },
+    {
+      "id": "tx_o357vb94",
+      "description": "Woolworths Cape Town",
+      "amount": 79.92,
+      "donation": 0.08,
+      "platformFee": 0.01,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:17.795Z"
+    },
+    {
+      "id": "tx_zvfb4pqk",
+      "description": "Checkers Hyper",
+      "amount": 37.52,
+      "donation": 2.48,
+      "platformFee": 0.04,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:17.638Z"
+    },
+    {
+      "id": "tx_0pcv714c",
+      "description": "Takealot Online",
+      "amount": 79.7,
+      "donation": 0.3,
+      "platformFee": 0.01,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:17.451Z"
+    },
+    {
+      "id": "tx_0m4hlo1p",
+      "description": "Woolworths Cape Town",
+      "amount": 15.64,
+      "donation": 4.36,
+      "platformFee": 0.07,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:17.099Z"
+    },
+    {
+      "id": "tx_7n597aj8",
+      "description": "Checkers Hyper",
+      "amount": 53.98,
+      "donation": 6.02,
+      "platformFee": 0.09,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:16.345Z"
+    },
+    {
+      "id": "tx_gpsnrt2e",
+      "description": "Checkers Hyper",
+      "amount": 62.84,
+      "donation": 17.16,
+      "platformFee": 0.26,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:15.931Z"
+    },
+    {
+      "id": "tx_dqtre52n",
+      "description": "Checkers Hyper",
+      "amount": 40.62,
+      "donation": 19.38,
+      "platformFee": 0.29,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:14.210Z"
+    },
+    {
+      "id": "tx_pk3ce02e",
+      "description": "Checkers Hyper",
+      "amount": 57.45,
+      "donation": 2.55,
+      "platformFee": 0.04,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:13.532Z"
+    },
+    {
+      "id": "tx_juj41stl",
+      "description": "Woolworths Cape Town",
+      "amount": 51.18,
+      "donation": 8.82,
+      "platformFee": 0.13,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:13.001Z"
+    },
+    {
+      "id": "tx_t5xrptf7",
+      "description": "Shell Select",
+      "amount": 24.52,
+      "donation": 15.48,
+      "platformFee": 0.23,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:12.450Z"
+    },
+    {
+      "id": "tx_sfc9x29b",
+      "description": "Checkers Hyper",
+      "amount": 41.44,
+      "donation": 18.56,
+      "platformFee": 0.28,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:11.928Z"
+    },
+    {
+      "id": "tx_g5ps11rj",
+      "description": "Checkers Hyper",
+      "amount": 34.95,
+      "donation": 5.05,
+      "platformFee": 0.08,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:11.333Z"
+    },
+    {
+      "id": "tx_mt7wj7wg",
+      "description": "Vida e Caffe",
+      "amount": 39.19,
+      "donation": 0.81,
+      "platformFee": 0.01,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:10.597Z"
+    },
+    {
+      "id": "tx_f1qoczo3",
+      "description": "Woolworths Cape Town",
+      "amount": 80.09,
+      "donation": 19.91,
+      "platformFee": 0.3,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:09.700Z"
+    },
+    {
+      "id": "tx_ph90sq89",
+      "description": "Woolworths Cape Town",
+      "amount": 85.49,
+      "donation": 14.51,
+      "platformFee": 0.22,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:08.772Z"
+    },
+    {
+      "id": "tx_7qqreuiz",
+      "description": "Shell Select",
+      "amount": 78.43,
+      "donation": 1.57,
+      "platformFee": 0.02,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:02:04.415Z"
     }
   ]
 }

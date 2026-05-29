@@ -7,7 +7,7 @@ interface ChatModalProps {
   charity: Charity | null;
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (increment: number) => Promise<void>;
+  onConfirm: (increment: number, isPremium: boolean) => Promise<void>;
   currentIncrement: number;
 }
 
@@ -123,11 +123,14 @@ export default function ChatModal({
     // Trigger next bot confirmation after delay
     addBotMessageWithDelay(
       `Perfect! R${value} set. This rule will automatically apply to all transaction round-ups. Each time you tap your Investec card, the rounded difference goes straight to ${charity.name}.`,
-      1200
+      1000
     );
     setTimeout(() => {
-      addBotMessageWithDelay("Are you ready to link this rule and start giving?", 600);
-    }, 1200);
+      addBotMessageWithDelay(
+        "As a private banking client, would you like to activate our Lekker Donor Premium Tier (R19/mo)? This automatically collates all Section 18A tax deduction certificates for your tax returns and matches your carbon offset.",
+        500
+      );
+    }, 1000);
   };
 
   const handleCustomSubmit = (e: React.FormEvent) => {
@@ -143,14 +146,15 @@ export default function ChatModal({
     handleSelectIncrement(value);
   };
 
-  const handleConfirmActivation = async () => {
+  const handleConfirmActivation = async (isPremium: boolean) => {
     setIsSubmitting(true);
+    setValidationError("");
     
     // Simulating API save delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 800));
     
     try {
-      await onConfirm(selectedIncrement);
+      await onConfirm(selectedIncrement, isPremium);
       setStep(3);
       
       // User confirm text in bubble
@@ -159,14 +163,21 @@ export default function ChatModal({
         {
           id: "confirm_click",
           sender: "user",
-          text: "Yes, activate round-ups!",
+          text: isPremium ? "Yes, Activate with Premium (R19/mo)" : "Yes, Activate Standard Only",
         },
       ]);
 
-      addBotMessageWithDelay(
-        `🎉 Fantastic! Your Investec programmable banking round-up rules are now active at R${selectedIncrement}. Let's make an impact together!`,
-        800
-      );
+      if (isPremium) {
+        addBotMessageWithDelay(
+          `🎉 Magnificent choice! Your Investec programmable banking round-up rules are active at R${selectedIncrement} with Premium benefits enabled (Section 18A Tax Certificates & Carbon Offsets matching). Let's make a grand impact!`,
+          800
+        );
+      } else {
+        addBotMessageWithDelay(
+          `🎉 Fantastic! Your Investec programmable banking round-up rules are active at R${selectedIncrement} (Standard tier). Let's make an impact together!`,
+          800
+        );
+      }
     } catch (err) {
       console.error(err);
       setValidationError("Failed to update config. Please try again.");
@@ -261,14 +272,22 @@ export default function ChatModal({
                 <button
                   type="button"
                   className="confirm-btn yes"
-                  onClick={handleConfirmActivation}
+                  onClick={() => handleConfirmActivation(true)}
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
                     <span className="loading-spinner"></span>
                   ) : (
-                    "Yes, Activate Round-Ups"
+                    "Activate Premium (R19/mo)"
                   )}
+                </button>
+                <button
+                  type="button"
+                  className="confirm-btn yes-standard"
+                  onClick={() => handleConfirmActivation(false)}
+                  disabled={isSubmitting}
+                >
+                  Activate Standard Only (Free)
                 </button>
                 <button
                   type="button"
@@ -299,7 +318,7 @@ export default function ChatModal({
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0, 0, 0, 0.7);
+          background: rgba(11, 31, 58, 0.45);
           backdrop-filter: blur(8px);
           display: flex;
           justify-content: center;
@@ -312,22 +331,25 @@ export default function ChatModal({
           width: 100%;
           max-width: 440px;
           height: 520px;
-          background: #111115;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 24px;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+          background: #FFFFFF;
+          border: 1px solid #E0DDD6;
+          border-top: 3px solid #C9A84C;
+          border-radius: 2px;
+          box-shadow: 0 20px 50px rgba(11, 31, 58, 0.12);
           display: flex;
           flex-direction: column;
           overflow: hidden;
-          animation: modalScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: modalScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .chat-modal-header {
           padding: 1.25rem 1.5rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          border-bottom: 1px solid #E0DDD6;
+          background: #0B1F3A;
           display: flex;
           justify-content: space-between;
           align-items: center;
+          color: #FFFFFF;
 
           .charity-meta {
             display: flex;
@@ -336,29 +358,30 @@ export default function ChatModal({
             
             .charity-badge {
               font-size: 0.65rem;
-              font-weight: 700;
+              font-weight: 500;
               text-transform: uppercase;
-              letter-spacing: 0.05em;
-              color: #007a4a;
+              letter-spacing: 0.08em;
+              color: #C9A84C;
             }
             
             h4 {
-              font-size: 0.95rem;
-              font-weight: 700;
-              color: #ffffff;
+              font-family: 'Playfair Display', Georgia, serif;
+              font-size: 1.05rem;
+              font-weight: 400;
+              color: #FFFFFF;
             }
           }
 
           .close-btn {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 1.8rem;
             cursor: pointer;
-            transition: color 0.2s;
+            transition: color 0.15s ease-in-out;
             
             &:hover {
-              color: #ffffff;
+              color: #C9A84C;
             }
           }
         }
@@ -370,7 +393,7 @@ export default function ChatModal({
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          background: rgba(255, 255, 255, 0.01);
+          background: #F5F4F0;
         }
 
         .message-row {
@@ -381,10 +404,10 @@ export default function ChatModal({
             justify-content: flex-start;
             
             .message-bubble {
-              background: rgba(255, 255, 255, 0.04);
-              color: #e2e8f0;
-              border-bottom-left-radius: 4px;
-              border: 1px solid rgba(255, 255, 255, 0.04);
+              background: #FFFFFF;
+              color: #0B1F3A;
+              border: 1px solid #E0DDD6;
+              border-bottom-left-radius: 1px;
             }
           }
           
@@ -392,10 +415,11 @@ export default function ChatModal({
             justify-content: flex-end;
             
             .message-bubble {
-              background: #007a4a;
-              color: #ffffff;
-              border-bottom-right-radius: 4px;
-              box-shadow: 0 4px 12px rgba(0, 122, 74, 0.25);
+              background: #0B1F3A;
+              color: #FFFFFF;
+              border: 1px solid #0B1F3A;
+              border-bottom-right-radius: 1px;
+              box-shadow: 0 4px 12px rgba(11, 31, 58, 0.08);
             }
           }
         }
@@ -404,8 +428,10 @@ export default function ChatModal({
           max-width: 85%;
           padding: 0.85rem 1.1rem;
           font-size: 0.88rem;
-          line-height: 1.45;
-          border-radius: 16px;
+          line-height: 1.5;
+          border-radius: 2px;
+          font-family: 'Inter', sans-serif;
+          font-weight: 300;
         }
 
         .typing-indicator {
@@ -418,7 +444,7 @@ export default function ChatModal({
             display: inline-block;
             width: 6px;
             height: 6px;
-            background: rgba(255, 255, 255, 0.5);
+            background: #C9A84C;
             border-radius: 50%;
             animation: bounce 1.2s infinite ease-in-out;
             
@@ -429,8 +455,8 @@ export default function ChatModal({
 
         .chat-input-panel {
           padding: 1.25rem 1.5rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          background: #0e0e11;
+          border-top: 1px solid #E0DDD6;
+          background: #FFFFFF;
         }
 
         .options-panel {
@@ -445,19 +471,20 @@ export default function ChatModal({
           }
 
           .option-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
+            background: #F5F4F0;
+            border: 1px solid #E0DDD6;
+            border-radius: 2px;
             padding: 0.6rem;
-            color: #ffffff;
+            color: #0B1F3A;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s ease-in-out;
             
             &:hover {
-              background: #007a4a;
-              border-color: #007a4a;
+              background: #0B1F3A;
+              border-color: #0B1F3A;
+              color: #FFFFFF;
             }
           }
 
@@ -467,32 +494,32 @@ export default function ChatModal({
             
             .custom-number-input {
               flex: 1;
-              background: rgba(255, 255, 255, 0.03);
-              border: 1px solid rgba(255, 255, 255, 0.08);
-              border-radius: 10px;
+              background: #FFFFFF;
+              border: 1px solid #E0DDD6;
+              border-radius: 2px;
               padding: 0.6rem 0.8rem;
-              color: #ffffff;
+              color: #0B1F3A;
               font-size: 0.8rem;
               
               &:focus {
                 outline: none;
-                border-color: rgba(0, 122, 74, 0.5);
+                border-color: #C9A84C;
               }
             }
             
             .custom-submit-btn {
-              background: #ffffff;
-              color: #000000;
+              background: #0B1F3A;
+              color: #FFFFFF;
               border: none;
-              border-radius: 10px;
+              border-radius: 2px;
               padding: 0 1.2rem;
               font-size: 0.8rem;
-              font-weight: 700;
+              font-weight: 500;
               cursor: pointer;
-              transition: opacity 0.2s;
+              transition: opacity 0.15s;
               
               &:hover {
-                opacity: 0.9;
+                background: #1A2E4A;
               }
             }
           }
@@ -504,41 +531,54 @@ export default function ChatModal({
           gap: 0.5rem;
 
           .confirm-buttons-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
           }
 
           .confirm-btn {
-            border-radius: 12px;
+            border-radius: 2px;
             padding: 0.8rem;
             font-size: 0.85rem;
-            font-weight: 700;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s ease-in-out;
             display: flex;
             justify-content: center;
             align-items: center;
+            border: none;
             
             &.yes {
-              background: #007a4a;
-              color: #ffffff;
-              border: none;
-              box-shadow: 0 4px 12px rgba(0, 122, 74, 0.2);
+              background: #C9A84C;
+              color: #0B1F3A;
+              border: 1.5px solid #C9A84C;
               
               &:hover {
-                background: #00663d;
-                transform: translateY(-1px);
+                background: #E8D5A3;
+                border-color: #E8D5A3;
+              }
+            }
+
+            &.yes-standard {
+              background: #0B1F3A;
+              color: #FFFFFF;
+              border: 1.5px solid #0B1F3A;
+              
+              &:hover {
+                background: #1A2E4A;
+                border-color: #1A2E4A;
               }
             }
             
             &.no {
               background: transparent;
-              border: 1px solid rgba(255, 255, 255, 0.1);
-              color: #a0a5b0;
+              border: 1.5px solid #E0DDD6;
+              color: #6B7B8D;
               
               &:hover {
-                background: rgba(255, 255, 255, 0.03);
+                background: #F5F4F0;
+                border-color: #C9A84C;
+                color: #C9A84C;
               }
             }
           }
@@ -547,18 +587,19 @@ export default function ChatModal({
         .completion-panel {
           .completion-close-btn {
             width: 100%;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+            background: #0B1F3A;
+            border: 1.5px solid #0B1F3A;
+            border-radius: 2px;
             padding: 0.8rem;
-            color: #ffffff;
+            color: #FFFFFF;
             font-size: 0.88rem;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.15s ease-in-out;
             
             &:hover {
-              background: rgba(255, 255, 255, 0.15);
+              background: #1A2E4A;
+              border-color: #1A2E4A;
             }
           }
         }

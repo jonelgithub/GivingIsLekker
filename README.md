@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Giving is lekker 🇿🇦
+### Frictionless Micro-Giving via Investec Programmable Banking
 
-## Getting Started
+**Giving is lekker** is a Next.js web application designed for South African private banking clients. It turns daily card swipes into automated, tax-efficient micro-donations. When a client swipes their Investec card, the platform intercepts the card swipe webhook, calculates a customized round-up difference (e.g. to the nearest R5, R10, or R20), and executes a direct transfer of that difference from their private transaction account to a selected, verified South African charity.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Q2 2026 Bounty Submission: "API Side Hustle"
+This project is aligned with the **Investec Developer Community Q2 2026 Bounty Challenge**.
+
+### 💼 Commercial Viability & Monetisation Model
+"Giving is lekker" operates on a multi-tier commercial model:
+1. **Micro-Transaction Platform Fee (Default)**: The platform charges a **1.5% convenience fee** on each round-up donation transfer (min R0.01 per swipe). In a high-net-worth client group, this aggregates a high volume of small fees.
+2. **SaaS Premium Tier ("Lekker Donor Premium")**: For **R19/month**, high-wealth clients can subscribe to the Premium Tier. This automatically compiles, matches, and issues aggregated **Section 18A tax deduction certificates** (saving clients up to 45% of their donations on South African income tax returns) and includes carbon-offset matching.
+3. **Charity Premium Listing**: A 5% marketing listing fee is charged to charities for premium feed exposure and corporate CSR matching opportunities.
+
+---
+
+## 🔌 Frontend-Backend Integration Workflow
+```
+[Card Swipe at Merchant] 
+       │
+       ▼
+(Investec Webhook Router) ──► [Next.js Webhook Receiver (API POST)]
+                                       │
+                                       ▼ (Calculates Round-Up + Platform Fee)
+                              [Fetch In-Memory OAuth2 Token] 
+                                       │
+                                       ▼ (Triggers OpenAPI Transfer Request)
+                              [Investec OpenAPI Accounts/Transfer API] 
+                                       │
+                                       ▼ (Success Feedback Loop)
+                              [Save Ledger & Update Dashboard UI]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Transaction Interception**: The client swipes their card at a merchant. Investec fires an HTTP POST webhook to `/api/investec/webhook`.
+2. **Calculation**: The Next.js API route evaluates the transaction amount and the user's active round-up increment:
+   * *Example*: R42.50 swipe with an R5 round-up increment calculates a **R2.50 donation** and a **R0.04 (1.5%) platform convenience fee**.
+3. **OAuth2 Handshake**: The backend checks for a cached OpenAPI OAuth2 access token. If expired or empty, it basic-authenticates with client credentials against `https://openapi.investec.com/identity/v2/oauth2/token`.
+4. **Transfer Execution**: The backend fires a POST request to `/za/pb/v1/accounts/{fromAccountId}/transfer` to perform a real-time account transfer to the selected charity's account number.
+5. **Ledger Registry**: The successful transfer is logged in the local JSON database (`db.json`) and instantly pushed to the client's live transaction ledger on the dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔑 Required Credentials & Configuration
 
-## Learn More
+To run this application in Live production mode, you must set up the following environment variables. If these credentials are not present, the application automatically defaults to **Simulated Sandbox Mode** with card swipe and transfer simulations.
 
-To learn more about Next.js, take a look at the following resources:
+Create a `.env.local` file in the root directory:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+# Investec Developer Credentials (from Developer Portal)
+INVESTEC_CLIENT_ID="your_client_id_here"
+INVESTEC_CLIENT_SECRET="your_client_secret_here"
+INVESTEC_API_KEY="your_api_key_here"
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Webhook Authentication (Optional - to verify webhook signatures)
+INVESTEC_WEBHOOK_SECRET="your_webhook_secret_here"
 
-## Deploy on Vercel
+# Security Keys for Session Management
+NEXTAUTH_SECRET="your_session_secret_key"
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Local Installation & Setup
+
+### Prerequisites
+* Node.js (v18.x or later)
+* npm (v9.x or later)
+
+### Step 1: Install Dependencies
+```bash
+npm install
+```
+
+### Step 2: Run Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+### Step 3: Production Build & Linting Checks
+To verify production readiness:
+```bash
+# Run ESLint validation
+npm run lint
+
+# Build the Next.js production bundle
+npm run build
+```
+
+---
+
+## 🧪 Interactive Demo Features
+* **Antigravity Dot Particle Canvas**: The login page and dashboard are styled with a fluid, physics-based particle field that responds dynamically to pointer movements, creating a high-wealth aesthetic.
+* **Frontend Phone Encryption (RSA-OAEP)**: Type a phone number in the login screen to visualize cryptographic encryption before values leave the browser client.
+* **Swipe Card Simulator**: Click "Tap Card" on the dashboard to trigger a card swipe. The backend will parse the webhook, log the transaction, calculate the donation amount and platform fee, and update the ledger in real-time.
+* **Private Wealth Estimator Slider**: Drag the slider to calculate annual SARS Section 18A tax rebates alongside platform monetization projections.
+
+---
+
+## 📄 License
+This project is open-source and licensed under the [MIT License](LICENSE).

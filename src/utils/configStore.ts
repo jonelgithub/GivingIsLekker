@@ -6,6 +6,7 @@ export interface Transaction {
   description: string;
   amount: number;       // Original transaction value (e.g. R42.50)
   donation: number;     // Rounded donation value (e.g. R2.50)
+  platformFee: number;  // 1.5% micro-transaction platform fee
   charityName: string;  // Charity supported
   timestamp: string;    // Time of swipe
 }
@@ -14,6 +15,8 @@ export interface AppConfig {
   activeCharityId: string | null;
   roundUpIncrement: number; // R5, R10, etc.
   totalDonated: number;
+  platformFeesEarned: number; // Simulated commercial earnings
+  isPremiumDonor: boolean;    // R19/month subscriber for Section 18A tax summaries
   transactions: Transaction[];
 }
 
@@ -23,6 +26,8 @@ const defaultConfig: AppConfig = {
   activeCharityId: null,
   roundUpIncrement: 5, // Default R5
   totalDonated: 0,
+  platformFeesEarned: 0,
+  isPremiumDonor: false,
   transactions: [],
 };
 
