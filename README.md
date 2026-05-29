@@ -1,14 +1,14 @@
-# Giving is lekker 🇿🇦
+# Giving is lekker
 ### Frictionless Micro-Giving via Investec Programmable Banking
 
 **Giving is lekker** is a Next.js web application designed for South African private banking clients. It turns daily card swipes into automated, tax-efficient micro-donations. When a client swipes their Investec card, the platform intercepts the card swipe webhook, calculates a customized round-up difference (e.g. to the nearest R5, R10, or R20), and executes a direct transfer of that difference from their private transaction account to a selected, verified South African charity.
 
 ---
 
-## 🚀 Q2 2026 Bounty Submission: "API Side Hustle"
+## Q2 2026 Bounty Submission: "API Side Hustle"
 This project is aligned with the **Investec Developer Community Q2 2026 Bounty Challenge**.
 
-### 💼 Commercial Viability & Monetisation Model
+### Commercial Viability & Monetisation Model
 "Giving is lekker" operates on a multi-tier commercial model:
 1. **Micro-Transaction Platform Fee (Default)**: The platform charges a **1.5% convenience fee** on each round-up donation transfer (min R0.01 per swipe). In a high-net-worth client group, this aggregates a high volume of small fees.
 2. **SaaS Premium Tier ("Lekker Donor Premium")**: For **R19/month**, high-wealth clients can subscribe to the Premium Tier. This automatically compiles, matches, and issues aggregated **Section 18A tax deduction certificates** (saving clients up to 45% of their donations on South African income tax returns) and includes carbon-offset matching.
@@ -16,7 +16,7 @@ This project is aligned with the **Investec Developer Community Q2 2026 Bounty C
 
 ---
 
-## 🔌 Frontend-Backend Integration Workflow
+## Frontend-Backend Integration Workflow
 ```
 [Card Swipe at Merchant] 
        │
@@ -42,7 +42,7 @@ This project is aligned with the **Investec Developer Community Q2 2026 Bounty C
 
 ---
 
-## 🔑 Required Credentials & Configuration
+## Required Credentials & Configuration
 
 To run this application in Live production mode, you must set up the following environment variables. If these credentials are not present, the application automatically defaults to **Simulated Sandbox Mode** with card swipe and transfer simulations.
 
@@ -63,7 +63,7 @@ NEXTAUTH_SECRET="your_session_secret_key"
 
 ---
 
-## 🛠️ Local Installation & Setup
+## Local Installation & Setup
 
 ### Prerequisites
 * Node.js (v18.x or later)
@@ -92,13 +92,24 @@ npm run build
 
 ---
 
-## 🧪 Interactive Demo Features
-* **Antigravity Dot Particle Canvas**: The login page and dashboard are styled with a fluid, physics-based particle field that responds dynamically to pointer movements, creating a high-wealth aesthetic.
-* **Frontend Phone Encryption (RSA-OAEP)**: Type a phone number in the login screen to visualize cryptographic encryption before values leave the browser client.
-* **Swipe Card Simulator**: Click "Tap Card" on the dashboard to trigger a card swipe. The backend will parse the webhook, log the transaction, calculate the donation amount and platform fee, and update the ledger in real-time.
-* **Private Wealth Estimator Slider**: Drag the slider to calculate annual SARS Section 18A tax rebates alongside platform monetization projections.
+## Demo
+
+### 1. Secure Authentication Portal
+The login screen features an interactive dot-particle field and dual authentication methods.
+* **Credentials Tab**: Standard sign in.
+* **Phone Number Tab**: Displays a real-time cryptographic visualizer performing RSA-OAEP encryption as you type, showing private wealth clients how their contact details are protected at the browser boundary.
+
+![Authentication Portal Screen](public/screenshots/login.png)
+
+### 2. Client Wealth & Giving Dashboard
+Once authenticated, the user is presented with the main control panel:
+* **Active Configuration**: View linked accounts, round-up settings, and simulate live card swipes to test webhooks.
+* **Private Wealth Impact & Tax Estimator**: Slide controls or input values to project monthly donations, SARS Section 18A tax rebates, and convenience fees.
+* **Charity Registry**: Filter and select verified South African charities to link for micro-donations.
+
+![Client Dashboard Screen](public/screenshots/dashboard.png)
 
 ---
 
-## 📄 License
+## License
 This project is open-source and licensed under the [MIT License](LICENSE).

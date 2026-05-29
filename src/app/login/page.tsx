@@ -104,7 +104,7 @@ export default function LoginPage() {
 
         {/* Community Quote */}
         <p className="community-quote">
-          &ldquo;The greatness of a community is most accurately measured by the compassionate actions of its members.&rdquo; — Coretta Scott King
+          &ldquo;The greatness of a community is most accurately measured by the compassionate actions of its members.&rdquo; Coretta Scott King
         </p>
 
         {/* Authentication Mode Switcher */}

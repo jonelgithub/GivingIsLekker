@@ -1,10 +1,145 @@
 {
-  "activeCharityId": "imbumba-girls",
+  "activeCharityId": "tears-rescue",
   "roundUpIncrement": 20,
-  "totalDonated": 151.94,
-  "platformFeesEarned": 2.3,
+  "totalDonated": 271.72,
+  "platformFeesEarned": 4.09,
   "isPremiumDonor": false,
   "transactions": [
+    {
+      "id": "tx_zcgrueuf",
+      "description": "Uber SA",
+      "amount": 46.96,
+      "donation": 13.04,
+      "platformFee": 0.2,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T16:41:09.344Z"
+    },
+    {
+      "id": "tx_qlriwuul",
+      "description": "Woolworths Cape Town",
+      "amount": 35.08,
+      "donation": 4.92,
+      "platformFee": 0.07,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T16:41:08.645Z"
+    },
+    {
+      "id": "tx_2vtxd6iy",
+      "description": "Checkers Hyper",
+      "amount": 51.98,
+      "donation": 8.02,
+      "platformFee": 0.12,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T16:41:07.821Z"
+    },
+    {
+      "id": "tx_0qbmq377",
+      "description": "Takealot Online",
+      "amount": 80.34,
+      "donation": 19.66,
+      "platformFee": 0.29,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T16:41:06.886Z"
+    },
+    {
+      "id": "tx_ivutkmpy",
+      "description": "Checkers Hyper",
+      "amount": 25.67,
+      "donation": 14.33,
+      "platformFee": 0.21,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T16:41:04.437Z"
+    },
+    {
+      "id": "tx_ia418nq4",
+      "description": "Vida e Caffe",
+      "amount": 17.2,
+      "donation": 2.8,
+      "platformFee": 0.04,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T16:41:03.819Z"
+    },
+    {
+      "id": "tx_hkako55t",
+      "description": "Shell Select",
+      "amount": 22.57,
+      "donation": 17.43,
+      "platformFee": 0.26,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T16:41:02.971Z"
+    },
+    {
+      "id": "tx_yw1ojojy",
+      "description": "Uber SA",
+      "amount": 76.67,
+      "donation": 3.33,
+      "platformFee": 0.05,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:37:43.445Z"
+    },
+    {
+      "id": "tx_othguj85",
+      "description": "Uber SA",
+      "amount": 65.9,
+      "donation": 4.1,
+      "platformFee": 0.06,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:37:41.458Z"
+    },
+    {
+      "id": "tx_rxhqjifm",
+      "description": "Uber SA",
+      "amount": 72.45,
+      "donation": 7.55,
+      "platformFee": 0.11,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:27:18.726Z"
+    },
+    {
+      "id": "tx_dl5ijm93",
+      "description": "Shell Select",
+      "amount": 76.23,
+      "donation": 3.77,
+      "platformFee": 0.06,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:27:18.391Z"
+    },
+    {
+      "id": "tx_ty6j1d0n",
+      "description": "Checkers Hyper",
+      "amount": 53.35,
+      "donation": 6.65,
+      "platformFee": 0.1,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:27:18.191Z"
+    },
+    {
+      "id": "tx_aj87x7iu",
+      "description": "Shell Select",
+      "amount": 48.81,
+      "donation": 1.19,
+      "platformFee": 0.02,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:27:17.652Z"
+    },
+    {
+      "id": "tx_k9fad3lg",
+      "description": "Uber SA",
+      "amount": 9.36,
+      "donation": 0.64,
+      "platformFee": 0.01,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:27:16.714Z"
+    },
+    {
+      "id": "tx_tx8ye5ez",
+      "description": "Woolworths Cape Town",
+      "amount": 27.65,
+      "donation": 12.35,
+      "platformFee": 0.19,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T16:14:58.934Z"
+    },
     {
       "id": "tx_5i1iqt7x",
       "description": "Uber SA",

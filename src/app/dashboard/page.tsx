@@ -266,10 +266,17 @@ export default function DashboardPage() {
                     fontWeight: 500,
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
-                    borderRadius: "2px"
+                    borderRadius: "4px",
+                    display: "inline-flex",
+                    alignItems: "center"
                   }}
                 >
-                  {appConfig.isPremiumDonor ? "✨ Premium (SARS Tax-Match)" : "Standard Tier"}
+                  {appConfig.isPremiumDonor ? (
+                    <>
+                      <i className="fa-solid fa-star" style={{ marginRight: "0.4rem" }}></i>
+                      Premium (SARS Tax-Match)
+                    </>
+                  ) : "Standard Tier"}
                 </span>
               </div>
             </div>
@@ -329,7 +336,7 @@ export default function DashboardPage() {
                         padding: "0.3rem 0.6rem",
                         background: "rgba(201, 168, 76, 0.08)",
                         color: "var(--color-accent-gold)",
-                        borderRadius: "2px",
+                        borderRadius: "4px",
                         fontSize: "0.7rem",
                         fontWeight: 600,
                         border: "1px solid var(--color-border-strong)",
@@ -350,7 +357,7 @@ export default function DashboardPage() {
                       onClick={handleSimulateSwipe}
                       disabled={simulatingSwipe}
                     >
-                      {simulatingSwipe ? <span className="loading-spinner"></span> : "💳 Tap Card (Trigger Webhook)"}
+                      {simulatingSwipe ? <span className="loading-spinner"></span> : <><i className="fa-solid fa-credit-card" style={{ marginRight: "0.5rem" }}></i>Tap Card (Trigger Webhook)</>}
                     </button>
                     {swipeSuccessMsg && (
                       <p
@@ -363,7 +370,7 @@ export default function DashboardPage() {
                   </div>
                 </>
               ) : (
-                <div style={{ padding: "1rem", textAlign: "center", background: "var(--color-background-off)", borderRadius: "2px" }}>
+                <div style={{ padding: "1rem", textAlign: "center", background: "var(--color-background-off)", borderRadius: "8px" }}>
                   <p style={{ fontSize: "0.85rem", color: "var(--color-text-secondary)" }}>
                     No active round-up rules linked yet. Select a charity below to activate!
                   </p>
@@ -410,8 +417,10 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
-           {/* HNW Micro-Giving Impact & Tax Estimator */}
-        <div className="dashboard-container" style={{ maxWidth: "100%", padding: "2rem", gap: "1rem", marginTop: "0.5rem" }}>
+        </div> {/* Close outer desktop-stats-grid */}
+
+        {/* HNW Micro-Giving Impact & Tax Estimator */}
+        <div className="dashboard-container" style={{ maxWidth: "100%", padding: "2rem", gap: "1rem", marginTop: "1rem" }}>
           <div>
             <span className="overline">Tax Efficiency</span>
             <h2 style={{ fontSize: "1.3rem", margin: 0 }}>
@@ -423,51 +432,270 @@ export default function DashboardPage() {
           </p>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "1.5rem", marginTop: "0.5rem" }} className="desktop-stats-grid">
-            {/* Slider controls */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", justifyContent: "center" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem" }}>
-                <span style={{ color: "var(--color-text-primary)", fontWeight: 500 }}>Estimated Card Swipes / Month</span>
-                <span style={{ color: "var(--color-accent-gold)", fontWeight: 600, fontFamily: "var(--font-heading)", fontSize: "1.1rem" }}>{estMonthlySwipes} swipes</span>
+            {/* Slider & Input controls */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", justifyContent: "center", background: "var(--color-background-off)", border: "1px solid var(--color-border)", padding: "1.5rem", borderRadius: "16px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span className="overline" style={{ margin: 0 }}>Configure Simulation</span>
+                <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)", background: "rgba(201, 168, 76, 0.08)", padding: "0.25rem 0.5rem", borderRadius: "4px", border: "1px solid var(--color-border-strong)" }}>
+                  <i className="fa-solid fa-calculator" style={{ marginRight: "0.35rem" }}></i>
+                  Interactive Mode
+                </span>
               </div>
-              <input
-                type="range"
-                min="10"
-                max="120"
-                step="5"
-                value={estMonthlySwipes}
-                onChange={(e) => setEstMonthlySwipes(Number(e.target.value))}
-                style={{
-                  width: "100%",
-                  accentColor: "var(--color-accent-gold)",
-                  cursor: "pointer",
-                }}
-              />
-              <span style={{ fontSize: "0.72rem", color: "var(--color-text-muted)" }}>
-                Based on average South African private banking card swipe frequency.
-              </span>
+              
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
+                  <label htmlFor="swipes-input" style={{ color: "var(--color-text-primary)", fontWeight: 500, fontSize: "0.85rem" }}>
+                    Estimated Card Swipes / Month
+                  </label>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <input
+                      id="swipes-input"
+                      type="number"
+                      min="1"
+                      max="1000"
+                      value={estMonthlySwipes}
+                      onChange={(e) => setEstMonthlySwipes(Math.min(1000, Math.max(1, Number(e.target.value))))}
+                      style={{
+                        width: "70px",
+                        padding: "0.35rem 0.5rem",
+                        background: "var(--color-background)",
+                        border: "1px solid var(--color-border)",
+                        borderRadius: "8px",
+                        fontSize: "0.9rem",
+                        fontWeight: 600,
+                        color: "var(--color-text-primary)",
+                        textAlign: "center",
+                        outline: "none"
+                      }}
+                    />
+                    <span style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)" }}>swipes</span>
+                  </div>
+                </div>
+                
+                <input
+                  type="range"
+                  min="5"
+                  max="200"
+                  step="5"
+                  value={estMonthlySwipes}
+                  onChange={(e) => setEstMonthlySwipes(Number(e.target.value))}
+                  style={{
+                    width: "100%",
+                    accentColor: "var(--color-accent-gold)",
+                    cursor: "pointer",
+                    margin: "0.5rem 0"
+                  }}
+                />
+              </div>
+
+              {/* Quick Presets Selector */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                <span style={{ fontSize: "0.68rem", color: "var(--color-text-secondary)", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em" }}>Select Swipes Preset</span>
+                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                  {[
+                    { label: "Casual (25)", value: 25 },
+                    { label: "Standard (55)", value: 55 },
+                    { label: "HNW Active (90)", value: 90 },
+                    { label: "Executive (120)", value: 120 }
+                  ].map((preset) => (
+                    <button
+                      key={preset.value}
+                      type="button"
+                      onClick={() => setEstMonthlySwipes(preset.value)}
+                      style={{
+                        flex: "1 1 auto",
+                        padding: "0.5rem 0.8rem",
+                        borderRadius: "8px",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        background: estMonthlySwipes === preset.value ? "var(--color-primary)" : "var(--color-background)",
+                        color: estMonthlySwipes === preset.value ? "#ffffff" : "var(--color-primary)",
+                        border: "1.5px solid " + (estMonthlySwipes === preset.value ? "var(--color-primary)" : "var(--color-border-strong)"),
+                        transition: "all 0.15s ease-in-out",
+                        boxShadow: "0 2px 4px rgba(11, 31, 58, 0.04)"
+                      }}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ fontSize: "0.72rem", color: "var(--color-text-secondary)", display: "flex", alignItems: "center", gap: "0.5rem", borderTop: "1px solid var(--color-border)", paddingTop: "0.75rem", marginTop: "0.25rem" }}>
+                <i className="fa-solid fa-circle-info" style={{ color: "var(--color-accent-gold)" }}></i>
+                <span>Private banking clients in SA average <strong>55 swipes/month</strong>.</span>
+              </div>
             </div>
 
-            {/* Calculations display */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", background: "var(--color-background-off)", border: "1px solid var(--color-border)", padding: "1.25rem 1.5rem", borderRadius: "2px" }}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ fontSize: "0.68rem", color: "var(--color-text-muted)", textTransform: "uppercase", fontWeight: 500, letterSpacing: "0.04em" }}>Est. Monthly Donation</span>
-                <span style={{ fontSize: "1.4rem", fontWeight: 400, color: "var(--color-text-primary)", fontFamily: "var(--font-heading)", marginTop: "0.15rem" }}>R{estimatedMonthlyDonation.toFixed(2)}</span>
-                <span style={{ fontSize: "0.68rem", color: "var(--color-text-secondary)", marginTop: "0.15rem" }}>Avg R{averageDonationPerSwipe.toFixed(2)} round-up</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ fontSize: "0.68rem", color: "var(--color-text-muted)", textTransform: "uppercase", fontWeight: 500, letterSpacing: "0.04em" }}>Est. Annual SARS Credit</span>
-                <span style={{ fontSize: "1.4rem", fontWeight: 400, color: "var(--color-accent-gold)", fontFamily: "var(--font-heading)", marginTop: "0.15rem" }}>R{estimatedTaxRebate.toFixed(2)}</span>
-                <span style={{ fontSize: "0.68rem", color: "var(--color-text-secondary)", marginTop: "0.15rem" }}>At 45% marginal tax rate</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gridColumn: "span 2", borderTop: "1px solid var(--color-border)", paddingTop: "0.75rem", marginTop: "0.25rem" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)" }}>Simulated Platform Fee Revenue (1.5%)</span>
-                  <span style={{ fontSize: "0.85rem", fontWeight: 500, color: "var(--color-text-primary)" }}>R{estimatedPlatformFee.toFixed(2)}/mo</span>
+            {/* Calculations and Graph display */}
+            <div className="estimator-right-container">
+              {/* Numeric values */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                <div>
+                  <span className="overline" style={{ fontSize: "0.62rem" }}>Est. Monthly Donation</span>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                    <span style={{ fontSize: "1.5rem", fontWeight: 600, color: "var(--color-text-primary)", fontFamily: "var(--font-body)" }}>
+                      R{estimatedMonthlyDonation.toFixed(2)}
+                    </span>
+                    <span style={{ fontSize: "0.72rem", color: "var(--color-text-secondary)" }}>
+                      Avg R{averageDonationPerSwipe.toFixed(2)} / swipe
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "0.75rem" }}>
+                  <span className="overline" style={{ fontSize: "0.62rem" }}>Est. Annual SARS Credit</span>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                    <span style={{ fontSize: "1.3rem", fontWeight: 600, color: "var(--color-accent-gold)" }}>
+                      R{estimatedTaxRebate.toFixed(2)}
+                    </span>
+                    <span style={{ fontSize: "0.72rem", color: "var(--color-text-secondary)" }}>
+                      At 45% marginal tax rate
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "0.75rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)" }}>
+                      Simulated Platform Fee Revenue (1.5%)
+                    </span>
+                    <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--color-text-primary)" }}>
+                      R{estimatedPlatformFee.toFixed(2)}/mo
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>       </div>
+        </div>
+
+        {/* HNW Giving Habits & Social Insights */}
+        <div className="dashboard-container" style={{ maxWidth: "100%", padding: "2rem", gap: "1rem", marginTop: "1rem" }}>
+          <div>
+            <span className="overline">Wealth Insights</span>
+            <h2 style={{ fontSize: "1.3rem", margin: 0, fontFamily: "var(--font-heading)" }}>
+              Giving Habits & Social Insights
+            </h2>
+          </div>
+          <p style={{ fontSize: "0.85rem", color: "var(--color-text-secondary)", margin: "0" }}>
+            Compare your automated programmable banking contributions to ordinary lifestyle spend profiles, and see the community impact generated by your daily transactions.
+          </p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "1.5rem", marginTop: "0.5rem" }} className="desktop-stats-grid">
+            {/* Left: Spending Habits comparison */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", background: "var(--color-background-off)", border: "1px solid var(--color-border)", padding: "1.25rem 1.5rem", borderRadius: "16px" }}>
+              <span className="overline" style={{ fontSize: "0.68rem" }}>Habit Comparison (Annual)</span>
+              
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                {/* Coffee Spending */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem" }}>
+                    <span style={{ color: "var(--color-text-primary)", fontWeight: 500 }}>
+                      <i className="fa-solid fa-mug-hot" style={{ marginRight: "0.5rem", color: "var(--color-text-secondary)" }}></i>
+                      Premium Coffee Habit (Avg. R45/day)
+                    </span>
+                    <span style={{ fontWeight: 600 }}>R16,425/yr</span>
+                  </div>
+                  <div style={{ width: "100%", height: "8px", background: "var(--color-border)", borderRadius: "1px", overflow: "hidden" }}>
+                    <div style={{ width: "42%", height: "100%", background: "var(--color-text-secondary)" }}></div>
+                  </div>
+                </div>
+
+                {/* Dine Out Spending */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem" }}>
+                    <span style={{ color: "var(--color-text-primary)", fontWeight: 500 }}>
+                      <i className="fa-solid fa-utensils" style={{ marginRight: "0.5rem", color: "var(--color-primary)" }}></i>
+                      Fine Dining & Retail (HNW average)
+                    </span>
+                    <span style={{ fontWeight: 600 }}>R38,500/yr</span>
+                  </div>
+                  <div style={{ width: "100%", height: "8px", background: "var(--color-border)", borderRadius: "1px", overflow: "hidden" }}>
+                    <div style={{ width: "100%", height: "100%", background: "var(--color-primary)", opacity: 0.6 }}></div>
+                  </div>
+                </div>
+
+                {/* Giving is Lekker donations */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem" }}>
+                    <span style={{ color: "var(--color-text-primary)", fontWeight: 500 }}>
+                      <i className="fa-solid fa-star" style={{ marginRight: "0.5rem", color: "var(--color-accent-gold)" }}></i>
+                      Giving is Lekker Micro-Donations
+                    </span>
+                    <span style={{ color: "var(--color-accent-gold)", fontWeight: 600 }}>R{estimatedAnnualDonation.toFixed(0)}/yr</span>
+                  </div>
+                  <div style={{ width: "100%", height: "8px", background: "var(--color-border)", borderRadius: "1px", overflow: "hidden" }}>
+                    <div style={{ width: `${Math.min((estimatedAnnualDonation / 38500) * 100, 100)}%`, height: "100%", background: "var(--color-accent-gold)" }}></div>
+                  </div>
+                </div>
+
+                {/* SARS Rebate offset */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.75rem" }}>
+                    <span style={{ color: "var(--color-text-primary)", fontWeight: 500 }}>
+                      <i className="fa-solid fa-briefcase" style={{ marginRight: "0.5rem", color: "var(--color-accent-gold)" }}></i>
+                      Section 18A SARS Tax Rebate offset
+                    </span>
+                    <span style={{ color: "var(--color-accent-gold)", fontWeight: 600 }}>+R{estimatedTaxRebate.toFixed(0)}/yr back</span>
+                  </div>
+                  <div style={{ width: "100%", height: "8px", background: "var(--color-border)", borderRadius: "1px", overflow: "hidden" }}>
+                    <div style={{ width: `${Math.min((estimatedTaxRebate / 38500) * 100, 100)}%`, height: "100%", background: "var(--color-accent-gold-light)", border: "1px dashed var(--color-accent-gold)" }}></div>
+                  </div>
+                </div>
+              </div>
+
+              <span style={{ fontSize: "0.68rem", color: "var(--color-text-secondary)", fontStyle: "italic", borderTop: "1px solid var(--color-border)", paddingTop: "0.5rem", marginTop: "0.25rem" }}>
+                <i className="fa-solid fa-lightbulb" style={{ marginRight: "0.5rem", color: "var(--color-accent-gold)" }}></i>
+                Insight: Automated round-ups make giving feel effortless while occupying less than 3% of regular lifestyle spending.
+              </span>
+            </div>
+
+            {/* Right: Feel-Good Facts Grid */}
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }} className="estimator-graph-col">
+              <span className="overline" style={{ fontSize: "0.68rem", marginBottom: "0.5rem" }}>Community Impact Generated</span>
+              
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                <div style={{ background: "var(--color-background)", border: "1px solid var(--color-border)", padding: "0.75rem", borderRadius: "8px" }}>
+                  <i className="fa-solid fa-hands-holding-child" style={{ fontSize: "1.2rem", color: "var(--color-accent-gold)", marginBottom: "0.5rem", display: "block" }}></i>
+                  <span style={{ fontSize: "0.68rem", fontWeight: 600, color: "var(--color-text-primary)", display: "block" }}>Caring4Girls</span>
+                  <p style={{ fontSize: "0.62rem", color: "var(--color-text-secondary)", marginTop: "0.15rem", lineHeight: 1.3 }}>
+                    {Math.max(1, Math.round(estimatedAnnualDonation / 35))} sanitary packs funded, keeping girls in school.
+                  </p>
+                </div>
+                <div style={{ background: "var(--color-background)", border: "1px solid var(--color-border)", padding: "0.75rem", borderRadius: "8px" }}>
+                  <i className="fa-solid fa-dog" style={{ fontSize: "1.2rem", color: "var(--color-accent-gold)", marginBottom: "0.5rem", display: "block" }}></i>
+                  <span style={{ fontSize: "0.68rem", fontWeight: 600, color: "var(--color-text-primary)", display: "block" }}>TEARS Rescue</span>
+                  <p style={{ fontSize: "0.62rem", color: "var(--color-text-secondary)", marginTop: "0.15rem", lineHeight: 1.3 }}>
+                    {Math.max(1, Math.round(estimatedAnnualDonation / 150))} animal veterinary operations sponsored.
+                  </p>
+                </div>
+                <div style={{ background: "var(--color-background)", border: "1px solid var(--color-border)", padding: "0.75rem", borderRadius: "8px" }}>
+                  <i className="fa-solid fa-tree" style={{ fontSize: "1.2rem", color: "var(--color-accent-gold)", marginBottom: "0.5rem", display: "block" }}></i>
+                  <span style={{ fontSize: "0.68rem", fontWeight: 600, color: "var(--color-text-primary)", display: "block" }}>Township Farmers</span>
+                  <p style={{ fontSize: "0.62rem", color: "var(--color-text-secondary)", marginTop: "0.15rem", lineHeight: 1.3 }}>
+                    {Math.max(1, Math.round(estimatedAnnualDonation / 240))} organic food plots established for local families.
+                  </p>
+                </div>
+                <div style={{ background: "var(--color-background)", border: "1px solid var(--color-border)", padding: "0.75rem", borderRadius: "8px" }}>
+                  <i className="fa-solid fa-wheelchair" style={{ fontSize: "1.2rem", color: "var(--color-accent-gold)", marginBottom: "0.5rem", display: "block" }}></i>
+                  <span style={{ fontSize: "0.68rem", fontWeight: 600, color: "var(--color-text-primary)", display: "block" }}>Shonaquip Social</span>
+                  <p style={{ fontSize: "0.62rem", color: "var(--color-text-secondary)", marginTop: "0.15rem", lineHeight: 1.3 }}>
+                    {Math.max(1, Math.round(estimatedAnnualDonation / 400))} wheelchair orthotic adjustments funded.
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ borderTop: "1px dashed var(--color-border)", paddingTop: "0.5rem", marginTop: "0.75rem", textAlign: "center" }}>
+                <span style={{ fontSize: "0.65rem", color: "var(--color-accent-gold)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  <i className="fa-solid fa-flag" style={{ marginRight: "0.5rem" }}></i>
+                  R1.00 given is R1.00 invested in SA's future
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Charity Feed Title */}
         <div style={{ marginTop: "2rem", width: "100%" }}>
@@ -490,7 +718,7 @@ export default function DashboardPage() {
                 padding: "0.8rem 1rem",
                 background: "var(--color-background)",
                 border: "1px solid var(--color-border)",
-                borderRadius: "2px",
+                borderRadius: "8px",
                 color: "var(--color-text-primary)",
                 fontSize: "0.88rem",
                 outline: "none",
@@ -505,7 +733,7 @@ export default function DashboardPage() {
                 onClick={() => setSelectedTag(null)}
                 style={{
                   padding: "0.45rem 1rem",
-                  borderRadius: "2px",
+                  borderRadius: "8px",
                   fontSize: "0.75rem",
                   fontWeight: 500,
                   cursor: "pointer",
@@ -526,7 +754,7 @@ export default function DashboardPage() {
                   onClick={() => setSelectedTag(tag)}
                   style={{
                     padding: "0.45rem 1rem",
-                    borderRadius: "2px",
+                    borderRadius: "8px",
                     fontSize: "0.75rem",
                     fontWeight: 500,
                     cursor: "pointer",
@@ -565,15 +793,16 @@ export default function DashboardPage() {
                         position: "absolute",
                         top: "12px",
                         right: "12px",
-                        background: "var(--color-primary)",
-                        color: "var(--color-accent-gold)",
+                        background: "var(--color-background)",
+                        color: "var(--color-primary)",
                         fontSize: "0.65rem",
-                        fontWeight: 600,
+                        fontWeight: 700,
                         textTransform: "uppercase",
-                        padding: "0.35rem 0.7rem",
-                        borderRadius: "2px",
-                        border: "1px solid var(--color-border-strong)",
-                        letterSpacing: "0.05em",
+                        padding: "0.4rem 0.8rem",
+                        borderRadius: "16px",
+                        border: "1.5px solid var(--color-border-strong)",
+                        letterSpacing: "0.06em",
+                        boxShadow: "0 4px 12px rgba(11, 31, 58, 0.08)",
                       }}
                     >
                       Active Selection
@@ -602,7 +831,7 @@ export default function DashboardPage() {
               </div>
             ))
           ) : (
-            <div style={{ gridColumn: "span 2", textAlign: "center", padding: "3rem", background: "var(--color-background)", borderRadius: "2px", border: "1px solid var(--color-border)", boxShadow: "var(--shadow-subtle)" }}>
+            <div style={{ gridColumn: "span 2", textAlign: "center", padding: "3rem", background: "var(--color-background)", borderRadius: "16px", border: "1px solid var(--color-border)", boxShadow: "var(--shadow-subtle)" }}>
               <p style={{ color: "var(--color-text-secondary)", fontSize: "0.9rem", fontWeight: 300, marginBottom: "1rem" }}>No charities found matching your search filters.</p>
               <button
                 type="button"
@@ -612,7 +841,7 @@ export default function DashboardPage() {
                   background: "var(--color-primary)",
                   color: "#ffffff",
                   border: "none",
-                  borderRadius: "2px",
+                  borderRadius: "8px",
                   fontSize: "0.8rem",
                   fontWeight: 500,
                   textTransform: "uppercase",
@@ -626,6 +855,7 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
+    </div>
 
       {/* Dynamic chat modal */}
       <ChatModal
@@ -643,7 +873,6 @@ export default function DashboardPage() {
           }
         }
       `}</style>
-    </div>
     </>
   );
 }

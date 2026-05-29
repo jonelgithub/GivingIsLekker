@@ -169,12 +169,12 @@ export default function ChatModal({
 
       if (isPremium) {
         addBotMessageWithDelay(
-          `🎉 Magnificent choice! Your Investec programmable banking round-up rules are active at R${selectedIncrement} with Premium benefits enabled (Section 18A Tax Certificates & Carbon Offsets matching). Let's make a grand impact!`,
+          `Magnificent choice! Your Investec programmable banking round-up rules are active at R${selectedIncrement} with Premium benefits enabled (Section 18A Tax Certificates & Carbon Offsets matching). Let's make a grand impact!`,
           800
         );
       } else {
         addBotMessageWithDelay(
-          `🎉 Fantastic! Your Investec programmable banking round-up rules are active at R${selectedIncrement} (Standard tier). Let's make an impact together!`,
+          `Fantastic! Your Investec programmable banking round-up rules are active at R${selectedIncrement} (Standard tier). Let's make an impact together!`,
           800
         );
       }
@@ -334,7 +334,7 @@ export default function ChatModal({
           background: #FFFFFF;
           border: 1px solid #E0DDD6;
           border-top: 3px solid #C9A84C;
-          border-radius: 2px;
+          border-radius: 16px;
           box-shadow: 0 20px 50px rgba(11, 31, 58, 0.12);
           display: flex;
           flex-direction: column;
@@ -365,9 +365,9 @@ export default function ChatModal({
             }
             
             h4 {
-              font-family: 'Playfair Display', Georgia, serif;
+              font-family: 'DM Sans', sans-serif;
               font-size: 1.05rem;
-              font-weight: 400;
+              font-weight: 500;
               color: #FFFFFF;
             }
           }
@@ -407,7 +407,7 @@ export default function ChatModal({
               background: #FFFFFF;
               color: #0B1F3A;
               border: 1px solid #E0DDD6;
-              border-bottom-left-radius: 1px;
+              border-bottom-left-radius: 4px;
             }
           }
           
@@ -418,7 +418,7 @@ export default function ChatModal({
               background: #0B1F3A;
               color: #FFFFFF;
               border: 1px solid #0B1F3A;
-              border-bottom-right-radius: 1px;
+              border-bottom-right-radius: 4px;
               box-shadow: 0 4px 12px rgba(11, 31, 58, 0.08);
             }
           }
@@ -429,9 +429,9 @@ export default function ChatModal({
           padding: 0.85rem 1.1rem;
           font-size: 0.88rem;
           line-height: 1.5;
-          border-radius: 2px;
-          font-family: 'Inter', sans-serif;
-          font-weight: 300;
+          border-radius: 12px;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 400;
         }
 
         .typing-indicator {
@@ -473,7 +473,7 @@ export default function ChatModal({
           .option-btn {
             background: #F5F4F0;
             border: 1px solid #E0DDD6;
-            border-radius: 2px;
+            border-radius: 8px;
             padding: 0.6rem;
             color: #0B1F3A;
             font-size: 0.8rem;
@@ -496,7 +496,7 @@ export default function ChatModal({
               flex: 1;
               background: #FFFFFF;
               border: 1px solid #E0DDD6;
-              border-radius: 2px;
+              border-radius: 8px;
               padding: 0.6rem 0.8rem;
               color: #0B1F3A;
               font-size: 0.8rem;
@@ -511,7 +511,7 @@ export default function ChatModal({
               background: #0B1F3A;
               color: #FFFFFF;
               border: none;
-              border-radius: 2px;
+              border-radius: 8px;
               padding: 0 1.2rem;
               font-size: 0.8rem;
               font-weight: 500;
@@ -537,7 +537,7 @@ export default function ChatModal({
           }
 
           .confirm-btn {
-            border-radius: 2px;
+            border-radius: 8px;
             padding: 0.8rem;
             font-size: 0.85rem;
             font-weight: 500;
@@ -589,7 +589,7 @@ export default function ChatModal({
             width: 100%;
             background: #0B1F3A;
             border: 1.5px solid #0B1F3A;
-            border-radius: 2px;
+            border-radius: 8px;
             padding: 0.8rem;
             color: #FFFFFF;
             font-size: 0.88rem;
