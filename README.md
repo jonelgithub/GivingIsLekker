@@ -1,6 +1,8 @@
 # Giving is lekker
 ### Frictionless Micro-Giving via Investec Programmable Banking
 
+> **Tweet-Length Description:** Giving is lekker turns daily Investec card swipes into automated, tax-efficient micro-donations to South African charities via card webhooks and OAuth2 OpenAPI transfers! 🇿🇦💳✨
+
 **Giving is lekker** is a Next.js web application designed for South African private banking clients. It turns daily card swipes into automated, tax-efficient micro-donations. When a client swipes their Investec card, the platform intercepts the card swipe webhook, calculates a customized round-up difference (e.g. to the nearest R5, R10, or R20), and executes a direct transfer of that difference from their private transaction account to a selected, verified South African charity.
 
 ---
@@ -113,3 +115,11 @@ Once authenticated, the user is presented with the main control panel:
 
 ## License
 This project is open-source and licensed under the [MIT License](LICENSE).
+
+---
+
+## AI Usage & Disclaimer
+In compliance with transparency guidelines, we acknowledge that Generative Artificial Intelligence (AI) was utilized in the development of this project:
+- **Codebase & Architecture**: AI (Google DeepMind's Antigravity agent) was used to scaffold, draft, and refine code structures, including Next.js pages, API routes, security encryption utilities, and styling (TypeScript, React, SCSS).
+- **Visuals & Media**: AI was used in the conceptual design, asset creation, and generation of the visual brand assets and user interface elements.
+All AI-generated outputs were audited, refactored, and verified by human developers to meet security standards, ensure proper integration with the Investec OpenAPI, and align with the Investec programmable banking requirements.
