@@ -1,0 +1,716 @@
+@use 'sass:color';
+@use './variables.scss' as *;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: $font-family;
+  background: $bg-dark-gradient;
+  color: $text-primary;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background canvas wrapper */
+.page-container {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+/* Mobile First Auth Card */
+.auth-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: $card-bg;
+  border: 1px solid $card-border;
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  box-shadow: $shadow-premium;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: cardFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 24px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.01) 50%, rgba(0,122,74,0.15) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* Thin South African flag color stripe */
+.flag-stripe {
+  width: calc(100% + 4rem);
+  margin-left: -2rem;
+  margin-right: -2rem;
+  margin-top: -2.5rem;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  height: 6px;
+  display: flex;
+  overflow: hidden;
+
+  .color-segment {
+    flex: 1;
+    height: 100%;
+    
+    &.red { background-color: $sa-red; }
+    &.green { background-color: $sa-green; }
+    &.blue { background-color: $sa-blue; }
+    &.yellow { background-color: $sa-yellow; }
+    &.black { background-color: $sa-black; }
+    &.white { background-color: $sa-white; }
+  }
+}
+
+/* Brand styling: Giving is lekker */
+.brand-container {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  
+  .logo-text {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    line-height: 1.1;
+
+    .part-giving {
+      color: $text-primary;
+    }
+    
+    .part-is {
+      color: $text-secondary;
+    }
+    
+    .part-lekker {
+      // Sleek representation using South African Flag Colors as a subtle text gradient or color segment
+      background: linear-gradient(90deg, $sa-red 0%, $sa-yellow 30%, $sa-green 60%, $sa-blue 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1));
+    }
+  }
+}
+
+/* Faint, aesthetic community quote */
+.community-quote {
+  font-size: 0.9rem;
+  color: $text-muted;
+  text-align: center;
+  font-style: italic;
+  line-height: 1.5;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Custom form elements styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $text-secondary;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: $transition-fast;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    color: $text-primary;
+    font-family: $font-family;
+    font-size: 0.95rem;
+    transition: $transition-smooth;
+    
+    &:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba($sa-green, 0.5);
+      box-shadow: 0 0 15px rgba($sa-green, 0.15);
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .phone-prefix {
+    position: absolute;
+    left: 1rem;
+    color: $text-secondary;
+    font-size: 0.95rem;
+    pointer-events: none;
+    font-weight: 500;
+  }
+
+  .phone-input {
+    padding-left: 3.2rem !important;
+  }
+}
+
+/* Cryptographic Security Indicator */
+.security-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #10b981; // emerald green
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  margin-top: -0.25rem;
+  
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .cipher-preview {
+    font-family: monospace;
+    color: #34d399;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: auto;
+  }
+}
+
+/* Tabs or auth switcher */
+.auth-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 0.5rem;
+
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: $text-secondary;
+    padding: 0.6rem 0;
+    font-family: $font-family;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &:hover {
+      color: $text-primary;
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.08);
+      color: $text-primary;
+    }
+  }
+}
+
+/* Submit Button */
+.submit-btn {
+  background: linear-gradient(135deg, $sa-green 0%, color.scale($sa-green, $lightness: -5%) 100%);
+  color: $text-primary;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-family: $font-family;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: $transition-smooth;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba($sa-green, 0.2);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($sa-green, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+  
+  .loading-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+/* Social Buttons Row */
+.social-login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  
+  .social-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: $text-muted;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    
+    &::before, &::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    &:not(:empty)::before { margin-right: .75em; }
+    &:not(:empty)::after { margin-left: .75em; }
+  }
+
+  .social-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    color: $text-primary;
+    font-family: $font-family;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: $transition-smooth;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+
+    &.apple-btn {
+      svg {
+        fill: #FFFFFF;
+      }
+    }
+  }
+}
+
+/* Alert messages */
+.alert-error {
+  background: rgba(229, 29, 40, 0.1);
+  border: 1px solid rgba(229, 29, 40, 0.2);
+  color: #fca5a5;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: $card-bg;
+  border: 1px solid $card-border;
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: $shadow-premium;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  
+  .dashboard-header {
+    text-align: center;
+    
+    .welcome-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: $text-secondary;
+    }
+  }
+
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  .data-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    .data-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: $text-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .data-value {
+      font-size: 0.95rem;
+      color: $text-primary;
+      word-break: break-all;
+      font-weight: 500;
+      
+      &.encrypted {
+        font-family: monospace;
+        font-size: 0.8rem;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 0.5rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        color: #34d399;
+      }
+    }
+  }
+
+  .btn-logout {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: $text-primary;
+    border-radius: 12px;
+    padding: 0.9rem;
+    font-family: $font-family;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: $transition-smooth;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(229, 29, 40, 0.4);
+      color: #fca5a5;
+    }
+  }
+}
+
+/* Canvas overlay */
+.canvas-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: auto; /* Allow interaction */
+}
+
+/* Animations */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.pulsing {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Charity Card Grid */
+.charity-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.charity-card {
+  border-radius: 20px;
+  overflow: hidden;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 260px;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 122, 74, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .card-image {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .charity-card-info {
+    background: #ffffff;
+    color: #0c0c0f;
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #0c0c0f;
+    }
+
+    .tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .charity-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+      display: inline-block;
+      
+      &.kids {
+        background: rgba(229, 29, 40, 0.08);
+        color: #e51d28;
+        border: 1px solid rgba(229, 29, 40, 0.15);
+      }
+      
+      &.disability {
+        background: rgba(0, 35, 149, 0.08);
+        color: #002395;
+        border: 1px solid rgba(0, 35, 149, 0.15);
+      }
+      
+      &.environment {
+        background: rgba(0, 122, 74, 0.08);
+        color: #007a4a;
+        border: 1px solid rgba(0, 122, 74, 0.15);
+      }
+      
+      &.default-tag {
+        background: rgba(12, 12, 15, 0.05);
+        color: #646873;
+        border: 1px solid rgba(12, 12, 15, 0.1);
+      }
+    }
+  }
+}
+
+/* Quick swipe button styles */
+.swipe-simulator-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  padding: 1.25rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+
+  .simulator-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #a0a5b0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .swipe-btn {
+    background: linear-gradient(135deg, #002395 0%, #00155b 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 35, 149, 0.2);
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 15px rgba(0, 35, 149, 0.35);
+    }
+  }
+}
+
+/* Scrollable transaction ledger */
+.ledger-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.ledger-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  font-size: 0.85rem;
+
+  .tx-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    
+    .merchant-name {
+      font-weight: 600;
+      color: #ffffff;
+    }
+    
+    .tx-date {
+      font-size: 0.7rem;
+      color: #646873;
+    }
+  }
+
+  .tx-values {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+
+    .original-amount {
+      font-size: 0.75rem;
+      color: #a0a5b0;
+    }
+
+    .donation-amount {
+      font-weight: 700;
+      color: #10b981;
+    }
+  }
+}
+

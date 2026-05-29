@@ -1,0 +1,15 @@
+{
+  "activeCharityId": "imbumba-girls",
+  "roundUpIncrement": 5,
+  "totalDonated": 0.86,
+  "transactions": [
+    {
+      "id": "tx_5s65kw43",
+      "description": "Vida e Caffe",
+      "amount": 59.14,
+      "donation": 0.86,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-29T15:44:34.145Z"
+    }
+  ]
+}
