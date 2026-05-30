@@ -1,10 +1,127 @@
 {
-  "activeCharityId": "tears-rescue",
-  "roundUpIncrement": 20,
-  "totalDonated": 271.72,
-  "platformFeesEarned": 4.09,
-  "isPremiumDonor": false,
+  "activeCharityId": "imbumba-girls",
+  "roundUpIncrement": 5,
+  "totalDonated": 395.58,
+  "platformFeesEarned": 5.95,
+  "isPremiumDonor": true,
   "transactions": [
+    {
+      "id": "tx_jret480d",
+      "description": "Woolworths Cape Town",
+      "amount": 72.93,
+      "donation": 2.07,
+      "platformFee": 0.03,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-30T08:34:48.190Z"
+    },
+    {
+      "id": "tx_h55t3jiq",
+      "description": "Takealot Online",
+      "amount": 87.49,
+      "donation": 2.51,
+      "platformFee": 0.04,
+      "charityName": "Imbumba Foundation (Caring4Girls)",
+      "timestamp": "2026-05-30T08:34:41.798Z"
+    },
+    {
+      "id": "tx_tgtsgr23",
+      "description": "Uber SA",
+      "amount": 47.86,
+      "donation": 12.14,
+      "platformFee": 0.18,
+      "charityName": "Shonaquip Social Enterprise",
+      "timestamp": "2026-05-30T04:26:41.128Z"
+    },
+    {
+      "id": "tx_mnpqoi1r",
+      "description": "Woolworths Cape Town",
+      "amount": 42.76,
+      "donation": 17.24,
+      "platformFee": 0.26,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:27:07.397Z"
+    },
+    {
+      "id": "tx_biv5n7s7",
+      "description": "Checkers Hyper",
+      "amount": 66.09,
+      "donation": 13.91,
+      "platformFee": 0.21,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:27:07.075Z"
+    },
+    {
+      "id": "tx_qts4voad",
+      "description": "Vida e Caffe",
+      "amount": 72.35,
+      "donation": 7.65,
+      "platformFee": 0.11,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:27:06.873Z"
+    },
+    {
+      "id": "tx_e6vn6a98",
+      "description": "Vida e Caffe",
+      "amount": 66.3,
+      "donation": 13.7,
+      "platformFee": 0.21,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:27:06.668Z"
+    },
+    {
+      "id": "tx_il6lgtju",
+      "description": "Shell Select",
+      "amount": 46.65,
+      "donation": 13.35,
+      "platformFee": 0.2,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:27:06.456Z"
+    },
+    {
+      "id": "tx_1dtn20wg",
+      "description": "Vida e Caffe",
+      "amount": 57.16,
+      "donation": 2.84,
+      "platformFee": 0.04,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:27:06.205Z"
+    },
+    {
+      "id": "tx_o0qz8qbi",
+      "description": "Uber SA",
+      "amount": 33.17,
+      "donation": 6.83,
+      "platformFee": 0.1,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:27:05.460Z"
+    },
+    {
+      "id": "tx_yq696ray",
+      "description": "Uber SA",
+      "amount": 89.87,
+      "donation": 10.13,
+      "platformFee": 0.15,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:27:02.101Z"
+    },
+    {
+      "id": "tx_bcb1o335",
+      "description": "Checkers Hyper",
+      "amount": 85.66,
+      "donation": 14.34,
+      "platformFee": 0.22,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:13:36.310Z"
+    },
+    {
+      "id": "tx_56hpcs4n",
+      "description": "Woolworths Cape Town",
+      "amount": 12.85,
+      "donation": 7.15,
+      "platformFee": 0.11,
+      "charityName": "TEARS Animal Rescue",
+      "timestamp": "2026-05-29T17:13:35.644Z"
+    },
     {
       "id": "tx_zcgrueuf",
       "description": "Uber SA",

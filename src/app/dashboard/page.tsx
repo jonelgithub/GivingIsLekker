@@ -209,11 +209,13 @@ export default function DashboardPage() {
             className="btn-logout"
             onClick={handleLogout}
             style={{
-              padding: "0.45rem 1rem",
+              padding: "0.45rem 1.1rem",
               fontSize: "0.72rem",
               background: "transparent",
-              border: "1.5px solid var(--color-accent-gold)",
-              color: "var(--color-accent-gold)"
+              border: "1.5px solid #FFFFFF",
+              color: "#FFFFFF",
+              borderRadius: "4px",
+              letterSpacing: "0.08em"
             }}
           >
             Sign Out
@@ -287,7 +289,7 @@ export default function DashboardPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem", fontSize: "0.85rem" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                 <span className="overline" style={{ fontSize: "0.68rem" }}>Linked Transaction Account</span>
-                <span style={{ color: "var(--color-text-primary)", fontWeight: 500 }}>Investec Private Cash (•••• 1720)</span>
+                <span style={{ color: "var(--color-text-primary)", fontWeight: 500 }}>Zebra Private Cash (•••• 1720)</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                 <span className="overline" style={{ fontSize: "0.68rem" }}>SARS Section 18A Status</span>
@@ -350,14 +352,21 @@ export default function DashboardPage() {
 
                     {/* Simulator tap mechanism */}
                     <div className="swipe-simulator-box">
-                      <span className="simulator-title">Investec Card Swipe Simulator</span>
+                      <span className="simulator-title">Zebra Card Swipe Simulator</span>
                       <button
                         type="button"
                         className="swipe-btn"
                         onClick={handleSimulateSwipe}
                         disabled={simulatingSwipe}
                       >
-                        {simulatingSwipe ? <span className="loading-spinner"></span> : <><i className="fa-solid fa-credit-card" style={{ marginRight: "0.5rem" }}></i>Tap Card (Trigger Webhook)</>}
+                        {simulatingSwipe ? (
+                          <span className="loading-spinner"></span>
+                        ) : (
+                          <span className="btn-content">
+                            <i className="fa-solid fa-credit-card"></i>
+                            Tap Card (Trigger Webhook)
+                          </span>
+                        )}
                       </button>
                       {swipeSuccessMsg && (
                         <p

@@ -52,10 +52,10 @@ export default function DotField() {
         this.size = Math.random() * 1.2 + 0.8; // dots are between 0.8px and 2.0px
         this.opacity = Math.random() * 0.18 + 0.06; // subtle transparent values
         
-        const isGold = Math.random() > 0.85;
-        this.color = isGold 
-          ? `rgba(201, 168, 76, ${this.opacity * 1.2})` 
-          : `rgba(11, 31, 58, ${this.opacity * 0.75})`;
+        const isDarkGrey = Math.random() > 0.85;
+        this.color = isDarkGrey 
+          ? `rgba(100, 100, 100, ${this.opacity})` 
+          : `rgba(0, 0, 0, ${this.opacity * 0.8})`;
       }
 
       draw(context: CanvasRenderingContext2D) {

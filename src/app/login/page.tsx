@@ -94,7 +94,7 @@ export default function LoginPage() {
       <div className="auth-card">
         {/* Brand/Logo: Giving is lekker */}
         <div className="brand-container">
-          <span className="overline">Investec Programmable Banking</span>
+          <span className="overline">Zebra Wealth Programmable Giving</span>
           <h1 className="logo-text">
             <span className="part-giving">Giving</span>
             <span className="part-is">is</span>

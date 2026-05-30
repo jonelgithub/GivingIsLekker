@@ -96,20 +96,22 @@ npm run build
 
 ## Demo
 
-### 1. Secure Authentication Portal
-The login screen features an interactive dot-particle field and dual authentication methods.
+### 1. Zebra Luxe Authentication Portal
+The login screen features an interactive dot-particle field, a strict black-and-white theme, and dual authentication methods.
 * **Credentials Tab**: Standard sign in.
 * **Phone Number Tab**: Displays a real-time cryptographic visualizer performing RSA-OAEP encryption as you type, showing private wealth clients how their contact details are protected at the browser boundary.
 
-![Authentication Portal Screen](public/screenshots/login.png)
-
 ### 2. Client Wealth & Giving Dashboard
 Once authenticated, the user is presented with the main control panel:
-* **Active Configuration**: View linked accounts, round-up settings, and simulate live card swipes to test webhooks.
-* **Private Wealth Impact & Tax Estimator**: Slide controls or input values to project monthly donations, SARS Section 18A tax rebates, and convenience fees.
+* **Active Configuration**: View linked accounts, round-up settings, and simulate live card swipes using the Zebra stripe Card Swipe Simulator button.
+* **Private Wealth Impact & Tax Estimator**: Slide controls or input values to project monthly donations, SARS Section 18A tax rebates (up to 45%), and convenience fees.
 * **Charity Registry**: Filter and select verified South African charities to link for micro-donations.
 
-![Client Dashboard Screen](public/screenshots/dashboard.png)
+### 3. Step 0 Pre-Modal & Marketing Flow
+When a user clicks on a charity, a sleek pre-modal emerges featuring:
+* A luxury abstract zebra-themed marketing banner.
+* A motivational prompt: *"Thank you for wanting to take the first step... It starts somewhere"*.
+* High-contrast Zebra striped "Continue" button and outline "Cancel" button. Continuing takes the client directly into the interactive round-up increment settings.
 
 ---
 

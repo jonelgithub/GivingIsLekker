@@ -25,7 +25,7 @@ export default function ChatModal({
   onConfirm,
   currentIncrement,
 }: ChatModalProps) {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<0 | 1 | 2 | 3>(0);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [customAmount, setCustomAmount] = useState("");
   const [selectedIncrement, setSelectedIncrement] = useState<number>(currentIncrement || 5);
@@ -46,18 +46,22 @@ export default function ChatModal({
     }
   }, [messages, showOptions]);
 
-  // Initialize chat when opened
+  // Initialize modal state when opened
   useEffect(() => {
     if (!isOpen || !charity) return;
 
-    // Reset state
-    setStep(1);
+    // Reset to initial intro screen state
+    setStep(0);
     setCustomAmount("");
     setValidationError("");
     setIsSubmitting(false);
     setShowOptions(false);
+    setMessages([]);
+  }, [isOpen, charity]);
 
-    // Initial bot message sequence
+  const startChatFlow = () => {
+    if (!charity) return;
+    setStep(1);
     setMessages([
       {
         id: "msg_1",
@@ -67,7 +71,7 @@ export default function ChatModal({
     ]);
 
     // Show second message after 800ms
-    const timer1 = setTimeout(() => {
+    setTimeout(() => {
       setMessages((prev) => [
         ...prev,
         {
@@ -77,12 +81,8 @@ export default function ChatModal({
         },
       ]);
       setShowOptions(true);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer1);
-    };
-  }, [isOpen, charity]);
+    }, 800);
+  };
 
   if (!isOpen || !charity) return null;
 
@@ -199,28 +199,82 @@ export default function ChatModal({
           </button>
         </div>
 
-        {/* Chat Message Window */}
-        <div className="chat-messages-container">
-          {messages.map((msg) => (
-            <div key={msg.id} className={`message-row ${msg.sender}`}>
-              <div className="message-bubble">
-                {msg.isTyping ? (
-                  <div className="typing-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                ) : (
-                  msg.text
-                )}
-              </div>
+        {/* Chat Message Window or Pre-Modal Intro */}
+        {step === 0 ? (
+          <div className="chat-messages-container" style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "1.5rem", justifyContent: "center", alignItems: "center", textAlign: "center", overflowY: "hidden" }}>
+            {/* Premium Marketing Image — fixed height to prevent clipping in flex container */}
+            <div style={{ width: "100%", height: "170px", borderRadius: "4px", overflow: "hidden", border: "1px solid #E5E5E5", boxShadow: "0 6px 20px rgba(0,0,0,0.05)", flexShrink: 0 }}>
+              <img
+                src="/images/zebra_marketing.png"
+                alt="Zebra Wealth Philanthropy"
+                style={{ width: "100%", height: "100%", display: "block", objectFit: "cover", objectPosition: "center" }}
+              />
             </div>
-          ))}
-          <div ref={chatEndRef} />
-        </div>
+            
+            <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "1.35rem", fontStyle: "italic", lineHeight: 1.5, color: "#000000", margin: "0.5rem 0 0" }}>
+              &ldquo;Thank you for wanting to take the first step&hellip; It starts somewhere&rdquo;
+            </p>
+          </div>
+        ) : (
+          <div className="chat-messages-container">
+            {/* Marketing Image — constrained so it doesn't overflow the chat area */}
+            <div style={{ width: "100%", height: "120px", borderRadius: "4px", overflow: "hidden", border: "1px solid #E0E0E0", marginBottom: "0.75rem", flexShrink: 0 }}>
+              <img
+                src="/images/zebra_marketing.png"
+                alt="Zebra Wealth Philanthropy"
+                style={{ width: "100%", height: "100%", display: "block", objectFit: "cover", objectPosition: "center" }}
+              />
+            </div>
+            {messages.map((msg) => (
+              <div key={msg.id} className={`message-row ${msg.sender}`}>
+                <div className="message-bubble">
+                  {msg.isTyping ? (
+                    <div className="typing-indicator">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  ) : (
+                    msg.text
+                  )}
+                </div>
+              </div>
+            ))}
+            <div ref={chatEndRef} />
+          </div>
+        )}
 
         {/* Interactive Input options based on current step */}
         <div className="chat-input-panel">
+          {step === 0 && (
+            <div className="confirmation-panel">
+              <div className="confirm-buttons-grid" style={{ gap: "0.75rem" }}>
+                <button
+                  type="button"
+                  className="confirm-btn yes"
+                  onClick={startChatFlow}
+                  style={{
+                    background: "repeating-linear-gradient(-45deg, #000000, #000000 8px, #ffffff 8px, #ffffff 16px)",
+                    border: "2px solid #000000",
+                    color: "#FFFFFF",
+                    position: "relative",
+                    overflow: "hidden"
+                  }}
+                >
+                  <span style={{ background: "#000000", color: "#ffffff", padding: "0.4rem 1.2rem", borderRadius: "2px" }}>
+                    Continue
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  className="confirm-btn no"
+                  onClick={onClose}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
           {step === 1 && showOptions && (
             <div className="options-panel">
               <div className="quick-buttons">
@@ -332,20 +386,38 @@ export default function ChatModal({
           max-width: 440px;
           height: 520px;
           background: #FFFFFF;
-          border: 1px solid #E0DDD6;
-          border-top: 3px solid #C9A84C;
-          border-radius: 16px;
-          box-shadow: 0 20px 50px rgba(11, 31, 58, 0.12);
+          border: 1px solid #E0E0E0;
+          border-radius: 8px; /* Sharp corners for modern HNW aesthetic */
+          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
           display: flex;
           flex-direction: column;
           overflow: hidden;
+          position: relative;
           animation: modalScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+          /* Zebra stripes top line decoration */
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            z-index: 10;
+            background: repeating-linear-gradient(
+              90deg,
+              #000000,
+              #000000 6px,
+              #ffffff 6px,
+              #ffffff 12px
+            );
+          }
         }
 
         .chat-modal-header {
-          padding: 1.25rem 1.5rem;
-          border-bottom: 1px solid #E0DDD6;
-          background: #0B1F3A;
+          padding: 1.35rem 1.5rem 1.25rem 1.5rem;
+          border-bottom: 1px solid #E0E0E0;
+          background: #000000;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -358,15 +430,15 @@ export default function ChatModal({
             
             .charity-badge {
               font-size: 0.65rem;
-              font-weight: 500;
+              font-weight: 600;
               text-transform: uppercase;
-              letter-spacing: 0.08em;
-              color: #C9A84C;
+              letter-spacing: 0.1em;
+              color: #999999;
             }
             
             h4 {
-              font-family: 'DM Sans', sans-serif;
-              font-size: 1.05rem;
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 1.2rem;
               font-weight: 500;
               color: #FFFFFF;
             }
@@ -381,7 +453,7 @@ export default function ChatModal({
             transition: color 0.15s ease-in-out;
             
             &:hover {
-              color: #C9A84C;
+              color: #FFFFFF;
             }
           }
         }
@@ -393,7 +465,7 @@ export default function ChatModal({
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          background: #F5F4F0;
+          background: #FAFAFA;
         }
 
         .message-row {
@@ -405,8 +477,8 @@ export default function ChatModal({
             
             .message-bubble {
               background: #FFFFFF;
-              color: #0B1F3A;
-              border: 1px solid #E0DDD6;
+              color: #000000;
+              border: 1px solid #E0E0E0;
               border-bottom-left-radius: 4px;
             }
           }
@@ -415,11 +487,11 @@ export default function ChatModal({
             justify-content: flex-end;
             
             .message-bubble {
-              background: #0B1F3A;
+              background: #000000;
               color: #FFFFFF;
-              border: 1px solid #0B1F3A;
+              border: 1px solid #000000;
               border-bottom-right-radius: 4px;
-              box-shadow: 0 4px 12px rgba(11, 31, 58, 0.08);
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             }
           }
         }
@@ -429,7 +501,7 @@ export default function ChatModal({
           padding: 0.85rem 1.1rem;
           font-size: 0.88rem;
           line-height: 1.5;
-          border-radius: 12px;
+          border-radius: 8px;
           font-family: 'DM Sans', sans-serif;
           font-weight: 400;
         }
@@ -444,7 +516,7 @@ export default function ChatModal({
             display: inline-block;
             width: 6px;
             height: 6px;
-            background: #C9A84C;
+            background: #000000;
             border-radius: 50%;
             animation: bounce 1.2s infinite ease-in-out;
             
@@ -455,7 +527,7 @@ export default function ChatModal({
 
         .chat-input-panel {
           padding: 1.25rem 1.5rem;
-          border-top: 1px solid #E0DDD6;
+          border-top: 1px solid #E0E0E0;
           background: #FFFFFF;
         }
 
@@ -471,19 +543,20 @@ export default function ChatModal({
           }
 
           .option-btn {
-            background: #F5F4F0;
-            border: 1px solid #E0DDD6;
-            border-radius: 8px;
-            padding: 0.6rem;
-            color: #0B1F3A;
+            background: #FAFAFA;
+            border: 1px solid #E0E0E0;
+            border-radius: 4px;
+            padding: 0.65rem;
+            color: #000000;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
             cursor: pointer;
             transition: all 0.15s ease-in-out;
             
             &:hover {
-              background: #0B1F3A;
-              border-color: #0B1F3A;
+              background: #000000;
+              border-color: #000000;
               color: #FFFFFF;
             }
           }
@@ -495,31 +568,33 @@ export default function ChatModal({
             .custom-number-input {
               flex: 1;
               background: #FFFFFF;
-              border: 1px solid #E0DDD6;
-              border-radius: 8px;
+              border: 1px solid #E0E0E0;
+              border-radius: 4px;
               padding: 0.6rem 0.8rem;
-              color: #0B1F3A;
+              color: #000000;
               font-size: 0.8rem;
+              font-family: 'DM Sans', sans-serif;
               
               &:focus {
                 outline: none;
-                border-color: #C9A84C;
+                border-color: #000000;
               }
             }
             
             .custom-submit-btn {
-              background: #0B1F3A;
+              background: #000000;
               color: #FFFFFF;
               border: none;
-              border-radius: 8px;
+              border-radius: 4px;
               padding: 0 1.2rem;
               font-size: 0.8rem;
-              font-weight: 500;
+              font-weight: 600;
+              font-family: 'DM Sans', sans-serif;
               cursor: pointer;
-              transition: opacity 0.15s;
+              transition: background 0.15s;
               
               &:hover {
-                background: #1A2E4A;
+                background: #222222;
               }
             }
           }
@@ -537,10 +612,12 @@ export default function ChatModal({
           }
 
           .confirm-btn {
-            border-radius: 8px;
+            border-radius: 4px;
             padding: 0.8rem;
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0.04em;
             cursor: pointer;
             transition: all 0.15s ease-in-out;
             display: flex;
@@ -549,36 +626,36 @@ export default function ChatModal({
             border: none;
             
             &.yes {
-              background: #C9A84C;
-              color: #0B1F3A;
-              border: 1.5px solid #C9A84C;
+              background: #000000;
+              color: #FFFFFF;
+              border: 1.5px solid #000000;
               
               &:hover {
-                background: #E8D5A3;
-                border-color: #E8D5A3;
+                background: #222222;
+                border-color: #222222;
               }
             }
 
             &.yes-standard {
-              background: #0B1F3A;
-              color: #FFFFFF;
-              border: 1.5px solid #0B1F3A;
+              background: #FFFFFF;
+              color: #000000;
+              border: 1.5px solid #000000;
               
               &:hover {
-                background: #1A2E4A;
-                border-color: #1A2E4A;
+                background: #FAFAFA;
+                color: #000000;
               }
             }
             
             &.no {
               background: transparent;
-              border: 1.5px solid #E0DDD6;
-              color: #6B7B8D;
+              border: 1.5px solid #E0E0E0;
+              color: #555555;
               
               &:hover {
-                background: #F5F4F0;
-                border-color: #C9A84C;
-                color: #C9A84C;
+                background: #FAFAFA;
+                border-color: #000000;
+                color: #000000;
               }
             }
           }
@@ -587,19 +664,21 @@ export default function ChatModal({
         .completion-panel {
           .completion-close-btn {
             width: 100%;
-            background: #0B1F3A;
-            border: 1.5px solid #0B1F3A;
-            border-radius: 8px;
+            background: #000000;
+            border: 1.5px solid #000000;
+            border-radius: 4px;
             padding: 0.8rem;
             color: #FFFFFF;
             font-size: 0.88rem;
-            font-weight: 500;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0.05em;
             cursor: pointer;
             transition: all 0.15s ease-in-out;
             
             &:hover {
-              background: #1A2E4A;
-              border-color: #1A2E4A;
+              background: #222222;
+              border-color: #222222;
             }
           }
         }

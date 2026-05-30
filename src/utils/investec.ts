@@ -1,13 +1,10 @@
 /**
- * Investec Programmable Banking API Client.
- * Automatically switches between live endpoints and sandbox simulations based on env credentials.
+ * Investec Programmable Banking API Client for GivingIsLekker.
+ * Routes all requests through the Secure Bank API Proxy.
  */
 
-interface InvestecCredentials {
-  clientId: string;
-  clientSecret: string;
-  apiKey: string;
-}
+const PROXY_URL = process.env.INVESTEC_PROXY_URL || "http://localhost:8080/api";
+const PROXY_KEY = process.env.INVESTEC_PROXY_KEY || "local_dev_api_key_12345";
 
 interface TransferRequest {
   beneficiaryAccountId: string;
@@ -16,72 +13,69 @@ interface TransferRequest {
   theirReference: string;
 }
 
-let cachedToken: string | null = null;
-let tokenExpiryTime = 0;
-
-function getCredentials(): InvestecCredentials | null {
-  const clientId = process.env.INVESTEC_CLIENT_ID;
-  const clientSecret = process.env.INVESTEC_CLIENT_SECRET;
-  const apiKey = process.env.INVESTEC_API_KEY;
-
-  if (clientId && clientSecret && apiKey) {
-    return { clientId, clientSecret, apiKey };
+// Check proxy environment status
+async function checkProxyMode(): Promise<boolean> {
+  try {
+    const res = await fetch(`${PROXY_URL}/status`, { signal: AbortSignal.timeout(3000) });
+    if (res.ok) {
+      const data = await res.json();
+      return data.environment === "mock" || data.mode?.includes("MOCK");
+    }
+  } catch (err) {
+    console.warn("Investec Proxy Status: Could not check proxy status. Defaulting to mock translation.", err);
   }
-  return null;
+  return true;
 }
 
-// Authenticate and retrieve OAuth2 token
-export async function getAccessToken(): Promise<string> {
-  const creds = getCredentials();
-  if (!creds) {
-    console.log("Investec API: [Simulated] Authenticated sandbox session token.");
-    return "mock_access_token_" + Date.now();
-  }
-
-  // Check memory cache
-  if (cachedToken && Date.now() < tokenExpiryTime) {
-    return cachedToken;
-  }
-
+// List user transaction accounts from proxy
+export async function getAccounts(): Promise<any[]> {
   try {
-    const authHeader = Buffer.from(`${creds.clientId}:${creds.clientSecret}`).toString("base64");
-    
-    console.log("Investec API: Fetching live access token from OpenAPI...");
-    const res = await fetch("https://openapi.investec.com/identity/v2/oauth2/token", {
-      method: "POST",
+    console.log(`Investec Proxy: Fetching accounts from ${PROXY_URL}/pb/accounts...`);
+    const res = await fetch(`${PROXY_URL}/pb/accounts`, {
+      method: "GET",
       headers: {
-        "Authorization": `Basic ${authHeader}`,
-        "x-api-key": creds.apiKey,
-        "Content-Type": "application/x-www-form-urlencoded",
+        "x-local-api-key": PROXY_KEY,
+        "Accept": "application/json",
       },
-      body: "grant_type=client_credentials",
     });
 
     if (!res.ok) {
-      const errText = await res.text();
-      throw new Error(`Auth failed with status ${res.status}: ${errText}`);
+      throw new Error(`Failed to fetch accounts: ${res.status}`);
     }
 
     const data = await res.json();
-    cachedToken = data.access_token;
-    
-    // Expires in defaults to seconds. Subtract 60 seconds buffer
-    const expiresIn = data.expires_in || 3600;
-    tokenExpiryTime = Date.now() + (expiresIn - 60) * 1000;
+    const proxyAccounts = data.data?.accounts || [];
 
-    console.log("Investec API: Successfully acquired OAuth2 access token.");
-    return cachedToken!;
+    // Map proxy accounts back to GivingIsLekker UI IDs for compatibility in Mock Mode
+    const isMock = await checkProxyMode();
+    if (isMock) {
+      return proxyAccounts.map((acc: any) => {
+        if (acc.accountId === "acc_pb_12345") {
+          return {
+            ...acc,
+            accountId: "892019481720",
+            accountNumber: "20087654321",
+            accountName: "Investec Private Cash",
+            referenceName: "Transaction Account",
+            productName: "Private Cash Account",
+          };
+        } else if (acc.accountId === "acc_pb_sav_67890") {
+          return {
+            ...acc,
+            accountId: "172089201948",
+            accountNumber: "10012345678",
+            accountName: "Investec Prime Saver",
+            referenceName: "Savings",
+            productName: "Savings Account",
+          };
+        }
+        return acc;
+      });
+    }
+
+    return proxyAccounts;
   } catch (err) {
-    console.error("Investec API: Failed to fetch access token:", err);
-    throw err;
-  }
-}
-
-// List user transaction accounts
-export async function getAccounts(): Promise<any[]> {
-  const creds = getCredentials();
-  if (!creds) {
-    console.log("Investec API: [Simulated] Fetched sandbox bank accounts list.");
+    console.error("Investec Proxy: Failed to fetch accounts. Using local mock fallback.", err);
     return [
       {
         accountId: "172089201948",
@@ -99,64 +93,58 @@ export async function getAccounts(): Promise<any[]> {
       }
     ];
   }
-
-  const token = await getAccessToken();
-  const res = await fetch("https://openapi.investec.com/za/pb/v1/accounts", {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Accept": "application/json",
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch accounts: ${res.status}`);
-  }
-
-  const data = await res.json();
-  return data.data?.accounts || [];
 }
 
-// Perform automated transfer for round-up donations
+// Perform automated transfer for round-up donations via proxy
 export async function executeTransfer(
   fromAccountId: string,
   transfer: TransferRequest
 ): Promise<any> {
-  const creds = getCredentials();
+  const isMock = await checkProxyMode();
   
-  if (!creds) {
-    console.log("==================================================");
-    console.log("INVESTEC API SANDBOX TRANSFER SIMULATOR");
-    console.log(`From Account ID:  ${fromAccountId}`);
-    console.log(`To Account ID:    ${transfer.beneficiaryAccountId}`);
-    console.log(`Amount Transferred: R${transfer.amount.toFixed(2)}`);
-    console.log(`My Reference:     ${transfer.myReference}`);
-    console.log(`Their Reference:  ${transfer.theirReference}`);
-    console.log("Status:           SUCCESS");
-    console.log("==================================================");
-    return { status: "SUCCESS", transferId: "sim_" + Math.random().toString(36).substring(4) };
+  let targetFromAccountId = fromAccountId;
+  let targetBeneficiaryId = "";
+
+  if (isMock) {
+    // Translate source account to proxy's mock accounts
+    if (fromAccountId === "892019481720") {
+      targetFromAccountId = "acc_pb_12345";
+    } else if (fromAccountId === "172089201948") {
+      targetFromAccountId = "acc_pb_sav_67890";
+    }
+
+    // Translate target charity account to proxy's mock beneficiaries
+    const benIdMap: Record<string, string> = {
+      "98765432101": "ben_school_003", // Imbumba Girls -> Education Academy
+      "98765432102": "ben_utility_001", // Shonaquip -> Utility Services
+      "98765432103": "ben_utility_001", // Abalimi -> Utility Services
+      "98765432104": "ben_landlord_002", // TEARS -> Rent Management
+    };
+    targetBeneficiaryId = benIdMap[transfer.beneficiaryAccountId] || "ben_utility_001";
+  } else {
+    // In live mode, the beneficiaryAccountId holds the real beneficiaryId on their profile
+    targetBeneficiaryId = transfer.beneficiaryAccountId;
   }
 
-  const token = await getAccessToken();
-  const url = `https://openapi.investec.com/za/pb/v1/accounts/${fromAccountId}/transfer`;
-
+  // Construct request payload matching the proxy's paymultiple schema
+  const url = `${PROXY_URL}/pb/accounts/${targetFromAccountId}/paymultiple`;
   const payload = {
-    transferList: [
+    paymentList: [
       {
-        beneficiaryAccountId: transfer.beneficiaryAccountId,
-        amount: transfer.amount.toFixed(2), // API expects a string representation
-        myReference: transfer.myReference.substring(0, 30), // Investec enforces character limits
+        beneficiaryId: targetBeneficiaryId,
+        amount: transfer.amount.toFixed(2), // Requires numeric string format, e.g. "2.50"
+        myReference: transfer.myReference.substring(0, 30),
         theirReference: transfer.theirReference.substring(0, 30),
       }
     ]
   };
 
-  console.log(`Investec API: Executing transfer of R${transfer.amount.toFixed(2)}...`);
+  console.log(`Investec Proxy: Routing payment of R${transfer.amount.toFixed(2)} to ${targetBeneficiaryId} through proxy...`);
+  
   const res = await fetch(url, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${token}`,
-      "x-api-key": creds.apiKey,
+      "x-local-api-key": PROXY_KEY,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -164,10 +152,10 @@ export async function executeTransfer(
 
   if (!res.ok) {
     const errText = await res.text();
-    throw new Error(`Transfer failed: ${res.status} - ${errText}`);
+    throw new Error(`Proxy payment execution failed: ${res.status} - ${errText}`);
   }
 
   const data = await res.json();
-  console.log("Investec API: Transfer completed successfully.");
+  console.log("Investec Proxy: Payment successfully processed:", data);
   return data;
 }
