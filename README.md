@@ -90,7 +90,7 @@ npm run build
 
 ## Demo
 
-### 1. Zebra Luxe Authentication Portal
+### 1. Authentication Portal
 The login screen features an interactive dot-particle field, a strict black-and-white theme, and dual authentication methods.
 * **Credentials Tab**: Standard sign in.
 * **Phone Number Tab**: Displays a real-time cryptographic visualizer performing RSA-OAEP encryption as you type, showing private wealth clients how their contact details are protected at the browser boundary.
