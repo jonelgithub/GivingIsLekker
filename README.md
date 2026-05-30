@@ -7,7 +7,7 @@ This project is aligned with the **Investec Developer Community Q2 2026 Bounty C
 ### Commercial Viability & Monetisation Model
 "Giving is lekker" operates on a multi-tier commercial model:
 1. **Micro-Transaction Platform Fee (Default)**: The platform charges a **1.5% convenience fee** on each round-up donation transfer (min R0.01 per swipe). In a high-net-worth client group, this aggregates a high volume of small fees.
-2. **SaaS Premium Tier ("Lekker Donor Premium")**: For **R19/month**, high-wealth clients can subscribe to the Premium Tier. This automatically compiles, matches, and issues aggregated **Section 18A tax deduction certificates** (saving clients up to 45% of their donations on South African income tax returns) and includes carbon-offset matching.
+2. **SaaS Premium Tier ("Lekker Donor Premium")**: For **R19/month**, high-wealth clients can subscribe to the Premium Tier. This automatically compiles, matches, and issues aggregated **Section 18A tax deduction certificates** (saving clients up to 45% of their donations on South African income tax returns).
 3. **Charity Premium Listing**: A 5% marketing listing fee is charged to charities for premium feed exposure and corporate CSR matching opportunities.
 
 ---
@@ -29,7 +29,7 @@ This project is aligned with the **Investec Developer Community Q2 2026 Bounty C
                               [Save Ledger & Update Dashboard UI]
 ```
 
-1. **Transaction Interception**: The client swipes their card at a merchant. Investec fires an HTTP POST webhook to `/api/investec/webhook`.
+1. **Transaction Interception**: The client swipes their card at a merchant. Ffires an HTTP POST webhook to `/api/investec/webhook`.
 2. **Calculation**: The Next.js API route evaluates the transaction amount and the user's active round-up increment:
    * *Example*: R42.50 swipe with an R5 round-up increment calculates a **R2.50 donation** and a **R0.04 (1.5%) platform convenience fee**.
 3. **OAuth2 Handshake**: The backend checks for a cached OpenAPI OAuth2 access token. If expired or empty, it basic-authenticates with client credentials against `https://openapi.investec.com/identity/v2/oauth2/token`.
